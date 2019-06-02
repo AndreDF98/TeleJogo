@@ -25,7 +25,7 @@ import javax.swing.JFrame;
  *
  * @author Mohamed Eldib
  */
-public class Main extends JFrame implements Runnable ,KeyListener ,MouseMotionListener,MouseListener {
+public class PongTreino extends JFrame implements Runnable ,KeyListener ,MouseMotionListener,MouseListener {
     
     /** Creates a new instance of Main */
     
@@ -47,7 +47,7 @@ public class Main extends JFrame implements Runnable ,KeyListener ,MouseMotionLi
     
     
     
-    public Main() {
+    public PongTreino() {
         GAME_OPTION=true;
         setTitle("Sticker Game");
         setSize(400,400);
@@ -67,10 +67,10 @@ public class Main extends JFrame implements Runnable ,KeyListener ,MouseMotionLi
     
     public void paint(Graphics g) {
         if(GAME_OPTION) {
-            Image codemiles= new ImageIcon("imagens/codemiles.gif").getImage();
+            Image codemiles= new ImageIcon("TeleJogo/imagens/codemiles.gif").getImage();
             
             g.setColor(Color.GRAY);
-            myS= new Sound("audios/cheer.wav");
+            myS= new Sound("TeleJogo/audios/cheer.wav");
             
             g.fillRect(0,0,400,400);
             g.setColor(Color.white);
@@ -97,13 +97,6 @@ public class Main extends JFrame implements Runnable ,KeyListener ,MouseMotionLi
         }
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        new Main();
-        
-    }
     public void update(Graphics g) {
         
         if (dbImage == null) {
@@ -142,11 +135,11 @@ public class Main extends JFrame implements Runnable ,KeyListener ,MouseMotionLi
             if (whosgoal != 0) {
                 if(whosgoal==1) {
                     CScore++;
-                    myS = new Sound("audios/chime.wav");
+                    myS = new Sound("TeleJogo/audios/chime.wav");
                 } else {
                     
                     PScore++;
-                    myS = new Sound("audios/chime.wav");
+                    myS = new Sound("TeleJogo/audios/chime.wav");
                 }
                 if(PScore==5) {
                     GAME_STARTED=false;

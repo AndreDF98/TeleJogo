@@ -56,7 +56,7 @@ public class Ball {
         this.vx=vx;
         this.vy=vy;
         myBase=newBase;
-        myImg=new ImageIcon("imagens/Ball.gif").getImage();
+        myImg=new ImageIcon("TeleJogo/imagens/Ball.gif").getImage();
         this.BallColor=BallColor;
     }
     
@@ -109,7 +109,7 @@ public class Ball {
             
             if (BALL_LEFT <= 30 ) {
                 
-                mysound = new Sound("audios/hit.wav");
+                mysound = new Sound("TeleJogo/audios/hit.wav");
                 
                 
                 vx = - vx;
@@ -142,7 +142,7 @@ public class Ball {
             
             if (BALL_RIGHT >= 370 ) {
                 
-                mysound = new Sound("audios/hit.wav");
+                mysound = new Sound("TeleJogo/audios/hit.wav");
                 
                 
                 vx = - vx;

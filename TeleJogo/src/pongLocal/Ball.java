@@ -1,4 +1,4 @@
-package pong;
+package pongLocal;
 
 //import com.sun.xml.internal.bind.v2.TODO;
 
@@ -15,8 +15,8 @@ class Ball {
         x_vel = 4;
         y_vel = 4;
         diameter = 15;
-        x_pos = PongFrame.WIDTH/2;
-        y_pos = PongFrame.HEIGHT/2;
+        x_pos = PongLocal.WIDTH/2;
+        y_pos = PongLocal.HEIGHT/2;
 
     }
 

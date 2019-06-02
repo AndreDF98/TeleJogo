@@ -15,6 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
+import paredao.Paredao;
+import pongLocal.PongLocal;
+import pongRede.PongRede;
+import pongTreino.PongTreino;
+
 public class BotoesControle extends JPanel{
 
 	JButton treino;
@@ -161,7 +166,14 @@ public class BotoesControle extends JPanel{
 	
 	ActionListener comecaJogo = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			
+			if(paredao.isSelected()) new Paredao();
+			else {
+				if(escolhaOnline == 1) new PongRede();
+				else {
+					if(escolhaTreino == 0) new PongLocal();
+					else new PongTreino();
+				}
+			}
 		}
 	};
 	

@@ -18,8 +18,8 @@ public class Paddle {
 
     Paddle()
     {
-        x = Pong.WIDTH/2;
-        y = Pong.HEIGHT - Paddle.HEIGHT/2;
+        x = Paredao.WIDTH/2;
+        y = Paredao.HEIGHT - Paddle.HEIGHT/2;
     }
 
     // Draw the paddle on the screen.
@@ -37,8 +37,8 @@ public class Paddle {
     {
         if (newx < Paddle.WIDTH/2)
             x = Paddle.WIDTH/2;
-        else if (newx > Pong.WIDTH - Paddle.WIDTH/2)
-            x = Pong.WIDTH - Paddle.WIDTH/2;
+        else if (newx > Paredao.WIDTH - Paddle.WIDTH/2)
+            x = Paredao.WIDTH - Paddle.WIDTH/2;
         else 
             x = newx;
     }

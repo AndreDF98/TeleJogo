@@ -11,7 +11,9 @@ package paredao;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Pong extends Panel implements Runnable {
+import javax.swing.JFrame;
+
+public class Paredao extends Panel implements Runnable {
 
     // size of the game area
     static final int WIDTH = 500;
@@ -85,21 +87,17 @@ public class Pong extends Panel implements Runnable {
         paint(g);
     }
 
-    public static void main(String args[]) {
-        Frame frame = new Frame();
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-        public void windowClosing(java.awt.event.WindowEvent e) {
-            System.exit(0);
-            };
-         });
-
-        Pong pong = new Pong();
-        pong.setSize(WIDTH, HEIGHT);
-        frame.add(pong);
+    public Paredao() {
+    	JFrame frame = new JFrame();
+    	
+    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(WIDTH, HEIGHT);
+        frame.add(this);
         frame.pack();
-        frame.setSize(WIDTH, HEIGHT+20);
+        frame.setSize(WIDTH+16, HEIGHT+39);
         frame.setVisible(true);
-        pong.init();
-        pong.start();
+        this.init();
+        this.start();
     }
+    
 }

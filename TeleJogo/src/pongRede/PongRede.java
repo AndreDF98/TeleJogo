@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * Java Network Programming | Pong Game
 */  
 
-public class Test extends JFrame implements KeyListener, Runnable{
+public class PongRede extends JFrame implements KeyListener, Runnable{
 	
 	/**
 	 * Test of the game [*Main Class]
@@ -36,8 +36,11 @@ public class Test extends JFrame implements KeyListener, Runnable{
 	 // - Constructor - //
 	/////////////////////
 	
-	public Test(){
-
+	public PongRede(){
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		image = tk.getImage("TeleJogo/imagens/background_pong.png"); // - Set background texture of main menu - //
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.run();
 	}
 	
 	@Override
@@ -48,14 +51,6 @@ public class Test extends JFrame implements KeyListener, Runnable{
 		this.setSize(WIDTH,HEIGHT);
 		this.setResizable(false);
 		this.addKeyListener(this);
-	} 
-	
-	public static void main(String[] args){
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		image = tk.getImage("imagens/background_pong.png"); // - Set background texture of main menu - //
-		Test newT = new Test();
-		newT.run();
-
 	}
 	
 

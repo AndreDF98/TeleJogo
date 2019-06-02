@@ -1,31 +1,24 @@
-package pong;
+package pongLocal;
+
+import java.awt.Color;
 
 import javax.swing.*;  
 
-class PongFrame {
+public class PongLocal {
     static final int  HEIGHT=600;
     static final int WIDTH=800;
     private PongPanel panel;
 
-    private PongFrame(){
+    public PongLocal(){
         JFrame frame  = new JFrame("Pong");
-        frame.setSize(WIDTH,HEIGHT);
+        frame.setSize(WIDTH,HEIGHT+47);
         panel = new PongPanel();
 
         frame.add(panel);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
-    }
-
-    public static void main(String args[]){
-        SwingUtilities.invokeLater(new Runnable() {
-            //@Override
-            public void run() {
-                new PongFrame();
-            }
-        });
+        
     }
 
 }

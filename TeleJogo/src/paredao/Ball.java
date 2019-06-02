@@ -18,7 +18,7 @@ public class Ball {
 
     Ball()
     {
-        x = Pong.WIDTH/2;
+        x = Paredao.WIDTH/2;
         y = Ball.HEIGHT/2;
         vx = 0;
         vy = 0;
@@ -50,7 +50,7 @@ public class Ball {
         y += vy;
 
         // check for bouncing
-        if (x <= Ball.WIDTH/2 || x >= Pong.WIDTH - Ball.WIDTH/2)
+        if (x <= Ball.WIDTH/2 || x >= Paredao.WIDTH - Ball.WIDTH/2)
         {
             // bounds off horizontally
             vx = -vx;
@@ -60,15 +60,15 @@ public class Ball {
             // bounds off horizontally
             vy = -vy;
         } 
-        else if (y > Pong.HEIGHT - Ball.HEIGHT/2) 
+        else if (y > Paredao.HEIGHT - Ball.HEIGHT/2) 
         {
             // goes out of bound! loose point and restart.
-            x = Pong.WIDTH/2;
+            x = Paredao.WIDTH/2;
             y = Ball.HEIGHT/2;
             vx = 0;
             vy = 0;
         }
-        else if (y + Ball.HEIGHT/2 > Pong.HEIGHT - Paddle.HEIGHT) 
+        else if (y + Ball.HEIGHT/2 > Paredao.HEIGHT - Paddle.HEIGHT) 
         {
             int px = paddle.x;
             int py = paddle.y;

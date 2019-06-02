@@ -1,4 +1,4 @@
-package pong;
+package pongLocal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,20 +55,20 @@ the paddle movement super smooth.
             if((b.getY_pos() > left_pad.getY_pos()) && (b.getY_pos() < (left_pad.getY_pos() + left_pad.getHeight())))
                 b.revVelocityX();
             else {
-                b.setX_pos(PongFrame.WIDTH / 2);
-                b.setY_pos(PongFrame.HEIGHT / 2);
+                b.setX_pos(PongLocal.WIDTH / 2);
+                b.setY_pos(PongLocal.HEIGHT / 2);
             }
         }
         if(b.getX_pos() > (right_pad.getX_pos() - right_pad.getWidth())){
             if((b.getY_pos() > right_pad.getY_pos()) && (b.getY_pos() < (right_pad.getY_pos() + right_pad.getHeight())))
                 b.revVelocityX();
             else {
-                b.setX_pos(PongFrame.WIDTH / 2);
-                b.setY_pos(PongFrame.HEIGHT / 2);
+                b.setX_pos(PongLocal.WIDTH / 2);
+                b.setY_pos(PongLocal.HEIGHT / 2);
             }
 
         }
-        else if(b.getY_pos()<0 || b.getY_pos()>PongFrame.HEIGHT){
+        else if(b.getY_pos()<0 || b.getY_pos()>PongLocal.HEIGHT){
             b.revVelocityY();
         }
 

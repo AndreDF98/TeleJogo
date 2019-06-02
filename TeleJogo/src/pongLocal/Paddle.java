@@ -1,4 +1,4 @@
-package pong;
+package pongLocal;
 
 //import com.sun.xml.internal.bind.v2.TODO;
 class Paddle {
@@ -34,12 +34,12 @@ Paddle(String s) {
 //        accel = 2;
         height = 150;
         width = 10;
-        y_pos = (PongFrame.HEIGHT / 2) - (height / 2); //Centers the paddle
+        y_pos = (PongLocal.HEIGHT / 2) - (height / 2); //Centers the paddle
         if(s.equals("left")){
             x_pos = 10;
         }
         if(s.equals("right")){
-            x_pos = PongFrame.WIDTH - 20;
+            x_pos = PongLocal.WIDTH - 20;
         }
     }
 
@@ -49,7 +49,7 @@ Paddle(String s) {
     }
 
     void moveDown(){
-        if(y_pos < (PongFrame.HEIGHT - height))
+        if(y_pos < (PongLocal.HEIGHT - height))
             y_pos +=vel;
     }
 }
