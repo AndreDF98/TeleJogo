@@ -1,4 +1,4 @@
-package framework;
+package controle;
 
 import java.awt.Container;
 
@@ -20,11 +20,11 @@ public class Controle extends JFrame{
 		conteudo = this.getContentPane();
 		conteudo.setLayout(null);
 		
-		fundo = new JLabel(new ImageIcon(getClass().getResource("imagens/fundoControle.png")));
+		fundo = new JLabel(new ImageIcon(getClass().getResource("../fundoControle.png")));
 		fundo.setBounds(0, 0, 500, 300);
 		conteudo.add(fundo);
 		
-		logo = new JLabel(new ImageIcon(getClass().getResource("imagens/logo.png")));
+		logo = new JLabel(new ImageIcon(getClass().getResource("../logo.png")));
 		logo.setOpaque(true);
 		logo.setBounds(240, 50, 210, 50);
 		conteudo.add(logo);

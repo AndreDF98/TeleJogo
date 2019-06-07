@@ -1,4 +1,4 @@
-package framework;
+package controle;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,10 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
-import paredao.Paredao;
-import pongLocal.PongLocal;
+import jogos.Paredao;
+import jogos.PongLocal;
 import pongRede.PongRede;
-import pongTreino.PongTreino;
+import jogos.PongTreino;
 
 public class BotoesControle extends JPanel{
 
@@ -46,7 +46,7 @@ public class BotoesControle extends JPanel{
 		this.setLayout(null);
 		this.setBounds(0, 0, 500, 300);
 		
-		treino = new JButton(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
+		treino = new JButton(new ImageIcon(getClass().getResource("../botaoInicial.png")));
 		treino.setContentAreaFilled(false);
 		treino.setBorderPainted(false);
 		treino.setBounds(80, 45, 75, 25);
@@ -57,7 +57,7 @@ public class BotoesControle extends JPanel{
 		jogoTreino.setFont(fonte);
 		this.add(jogoTreino);
 		
-		velocidade = new JButton(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
+		velocidade = new JButton(new ImageIcon(getClass().getResource("../botaoInicial.png")));
 		velocidade.setContentAreaFilled(false);
 		velocidade.setBorderPainted(false);
 		velocidade.setBounds(80, 95, 75, 25);
@@ -68,7 +68,7 @@ public class BotoesControle extends JPanel{
 		jogoVelocidade.setFont(fonte);
 		this.add(jogoVelocidade);
 		
-		tamanho = new JButton(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
+		tamanho = new JButton(new ImageIcon(getClass().getResource("../botaoInicial.png")));
 		tamanho.setContentAreaFilled(false);
 		tamanho.setBorderPainted(false);
 		tamanho.setBounds(80, 145, 75, 25);
@@ -79,7 +79,7 @@ public class BotoesControle extends JPanel{
 		jogoTamanho.setFont(fonte);
 		this.add(jogoTamanho);
 		
-		online = new JButton(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
+		online = new JButton(new ImageIcon(getClass().getResource("../botaoInicial.png")));
 		online.setContentAreaFilled(false);
 		online.setBorderPainted(false);
 		online.setBounds(80, 195, 75, 25);
@@ -103,7 +103,7 @@ public class BotoesControle extends JPanel{
 		this.add(tenis);
 		this.add(paredao);
 		
-		trocaJogo = new JButton(new ImageIcon(getClass().getResource("imagens/botaoGrande.png")));
+		trocaJogo = new JButton(new ImageIcon(getClass().getResource("../botaoGrande.png")));
 		trocaJogo.setContentAreaFilled(false);
 		trocaJogo.setBorderPainted(false);
 		trocaJogo.setBounds(280,180, 40, 40);
@@ -114,7 +114,7 @@ public class BotoesControle extends JPanel{
 		inicioJogo.setBounds(350, 155, 100, 20);
 		inicioJogo.setFont(fonte);
 		this.add(inicioJogo);
-		jogar = new JButton(new ImageIcon(getClass().getResource("imagens/botaoGrande.png")));
+		jogar = new JButton(new ImageIcon(getClass().getResource("../botaoGrande.png")));
 		jogar.setContentAreaFilled(false);
 		jogar.setBorderPainted(false);
 		jogar.setBounds(365,180, 40, 40);
@@ -126,34 +126,34 @@ public class BotoesControle extends JPanel{
 	ActionListener mudaTreino = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			escolhaTreino = (escolhaTreino + 1) % 2;
-			if(escolhaTreino == 1) treino.setIcon(new ImageIcon(getClass().getResource("imagens/botaoFinal.png")));
-			else treino.setIcon(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
+			if(escolhaTreino == 1) treino.setIcon(new ImageIcon(getClass().getResource("../botaoFinal.png")));
+			else treino.setIcon(new ImageIcon(getClass().getResource("../botaoInicial.png")));
 		}
 	};
 	
 	ActionListener mudaVelocidade = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			escolhaVelocidade = (escolhaVelocidade + 1) % 4;
-			if(escolhaVelocidade == 0) velocidade.setIcon(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
-			else if(escolhaVelocidade == 3) velocidade.setIcon(new ImageIcon(getClass().getResource("imagens/botaoFinal.png")));
-			else velocidade.setIcon(new ImageIcon(getClass().getResource("imagens/botaoMeio" + escolhaVelocidade + ".png")));
+			if(escolhaVelocidade == 0) velocidade.setIcon(new ImageIcon(getClass().getResource("../botaoInicial.png")));
+			else if(escolhaVelocidade == 3) velocidade.setIcon(new ImageIcon(getClass().getResource("../botaoFinal.png")));
+			else velocidade.setIcon(new ImageIcon(getClass().getResource("../botaoMeio" + escolhaVelocidade + ".png")));
 		}
 	};
 	
 	ActionListener mudaTamanho = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			escolhaTamanho = (escolhaTamanho + 1) % 3;
-			if(escolhaTamanho == 1) tamanho.setIcon(new ImageIcon(getClass().getResource("imagens/botaoMeio.png")));
-			else if(escolhaTamanho == 2) tamanho.setIcon(new ImageIcon(getClass().getResource("imagens/botaoFinal.png")));
-			else tamanho.setIcon(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
+			if(escolhaTamanho == 1) tamanho.setIcon(new ImageIcon(getClass().getResource("../botaoMeio.png")));
+			else if(escolhaTamanho == 2) tamanho.setIcon(new ImageIcon(getClass().getResource("../botaoFinal.png")));
+			else tamanho.setIcon(new ImageIcon(getClass().getResource("../botaoInicial.png")));
 		}
 	};
 	
 	ActionListener mudaOnline = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			escolhaOnline = (escolhaOnline + 1) % 2;
-			if(escolhaOnline == 1) online.setIcon(new ImageIcon(getClass().getResource("imagens/botaoFinal.png")));
-			else online.setIcon(new ImageIcon(getClass().getResource("imagens/botaoInicial.png")));
+			if(escolhaOnline == 1) online.setIcon(new ImageIcon(getClass().getResource("../botaoFinal.png")));
+			else online.setIcon(new ImageIcon(getClass().getResource("../botaoInicial.png")));
 		}
 	};
 	
