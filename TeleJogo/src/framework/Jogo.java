@@ -31,6 +31,7 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 		this.defineTamanho(LARGURA, ALTURA);
 		this.defineTitulo("Jogo");
 		this.setDoubleBuffered(true);
+		this.setLayout(null);
 		janela.add(this);
 		
 		timer = new Timer(ATRASO,this);

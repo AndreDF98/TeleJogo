@@ -3,7 +3,6 @@ package framework;
 public class Jogador extends Obstaculo{
     
     protected int vel;
-    protected int acel;
 	
     private int limiteCima;
     private int limiteBaixo;
@@ -12,8 +11,7 @@ public class Jogador extends Obstaculo{
 
     public Jogador() {
     	
-    	vel = 10;
-    	acel = 0;
+    	vel = 15;
     	altura = 50;
     	largura = 50;
     	this.definePosicao(CENTRO_Y, CENTRO_X); //Centraliza o jogador verticalmente e horizontalmente

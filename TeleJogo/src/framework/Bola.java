@@ -10,18 +10,21 @@ public class Bola {
     private int vel_x;
     private int vel_y;
     
+    private double acel;
+    
     public Bola() {
         vel_x = 5;
         vel_y = 5;
-        diametro = 15;
+        acel = 1;
+        diametro = 20;
         pos_x = Jogo.Largura()/2;
         pos_y = Jogo.Altura()/2;
 
     }
 
     public void move(){
-        pos_x += vel_x;
-        pos_y += vel_y;
+        pos_x += vel_x * acel;
+        pos_y += vel_y * acel;
     }
 
     public int Pos_X() {
@@ -58,6 +61,19 @@ public class Bola {
 
     public void definePos_Y(int y_pos) {
         this.pos_y = y_pos;
+    }
+    
+    public void defineVel(int vel) {
+    	vel_x = vel;
+    	vel_y = vel;
+    }
+    
+    public void defineAcel(double a) {
+    	acel = a;
+    }
+    
+    public void aumentaAcel(double d) {
+    	acel += d;
     }
 	
 }

@@ -10,6 +10,7 @@ import framework.Bola;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
+import framework.Placar;
 
 public class PongLocal extends Jogo{
 	
@@ -19,17 +20,28 @@ public class PongLocal extends Jogo{
     private int CIMA_D = 2;
     private int BAIXO_D = 3;
     
+    private Placar placar;
+    
     private Obstaculo obCima;
     private Obstaculo obBaixo;
     private Obstaculo rede;
     
     private Jogador jogador1;
     private Jogador jogador2;
+    
+    private int tam;
+    private int vel;
 	
-	public PongLocal() {
+	public PongLocal(int tamanho, int velocidade) {
+		
+		tam = tamanho;
+		vel = velocidade;
 		
 		this.definePlanoFundo(Color.BLUE);
 		this.defineTitulo("Teste2");
+		
+		placar = new Placar();
+		this.add(placar);
 		
         timer.start();
         
@@ -44,13 +56,31 @@ public class PongLocal extends Jogo{
         bola = new Bola();
         
         jogador1 = new Jogador();
-        jogador1.defineTamanho(100, 20);
-        jogador1.definePosicao(jogador1.CENTRO_Y, 10);
+        jogador2 = new Jogador();
+        
+        if(tam == 0) {
+        	jogador1.defineTamanho(50, 20);
+        	jogador2.defineTamanho(50, 20);
+        }
+        if(tam == 1) {
+        	jogador1.defineTamanho(100, 20);
+        	jogador2.defineTamanho(100, 20);
+        }
+        if(tam == 2) {
+        	jogador1.defineTamanho(150, 20);
+        	jogador2.defineTamanho(150, 20);
+        }
+        
+        if(vel == 1) bola.defineVel(4);
+        if(vel == 2) bola.defineVel(6);
+        if(vel == 3) bola.defineVel(11);
+        if(vel == 0) bola.defineVel(4); // velocidade inicial
+        
+        jogador1.definePosicao(jogador1.CENTRO_Y, 50);
         jogador1.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
-        jogador2 = new Jogador();
-        jogador2.defineTamanho(100, 20);
-        jogador2.definePosicao(jogador2.CENTRO_Y, PongLocal.Largura() - 20 - 17);
+        
+        jogador2.definePosicao(jogador2.CENTRO_Y, PongLocal.Largura() - 20 - 50);
         jogador2.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
         teclas = new boolean[]{false,false,false,false};
@@ -72,28 +102,35 @@ public class PongLocal extends Jogo{
 	@Override
 	public void checaColisao() {
 		//colisao nos jogadores
-		if(bola.Pos_X() < (jogador1.Pos_X() + jogador1.Largura())) {
-            if((bola.Pos_Y() + bola.Diametro() > jogador1.Pos_Y()) && (bola.Pos_Y() < (jogador1.Pos_Y() + jogador1.Altura())))
+		if(bola.Pos_X() < (jogador1.Pos_X() + jogador1.Largura()) && bola.Pos_X() + bola.Diametro() > jogador1.Pos_X()) {
+            if((bola.Pos_Y() + bola.Diametro() > jogador1.Pos_Y()) && (bola.Pos_Y() < (jogador1.Pos_Y() + jogador1.Altura()))) {
                 bola.inverteVelX();
-            
-            else if(bola.Pos_X() < 0){
-                bola.definePos_X(PongLocal.Largura() / 2);
-                bola.definePos_Y(PongLocal.Altura() / 2);
+                if(vel == 0) bola.aumentaAcel(0.2);
             }
+            
         }
-		if(bola.Pos_X() > (jogador2.Pos_X() - jogador2.Largura())) {
-            if((bola.Pos_Y() + bola.Diametro() > jogador2.Pos_Y()) && (bola.Pos_Y() < (jogador2.Pos_Y() + jogador2.Altura())))
+		if(bola.Pos_X() < jogador2.Pos_X() + jogador2.Largura() && bola.Pos_X() + bola.Diametro() > jogador2.Pos_X()) {
+            if((bola.Pos_Y() + bola.Diametro() > jogador2.Pos_Y()) && (bola.Pos_Y() < (jogador2.Pos_Y() + jogador2.Altura()))) {
                 bola.inverteVelX();
-            
-            else if(bola.Pos_X() > PongLocal.Largura()){
-                bola.definePos_X(PongLocal.Largura() / 2);
-                bola.definePos_Y(PongLocal.Altura() / 2);
             }
+            
         }
 		//colisao nos obstaculos
         else{
         	if(bola.Pos_Y() < obCima.Pos_Y() + obCima.Altura() || bola.Pos_Y() + bola.Diametro() > obBaixo.Pos_Y())
         		bola.inverteVelY();
+        	
+        	if(bola.Pos_X() < 0){
+                bola.definePos_X(PongLocal.Largura() / 2);
+                bola.definePos_Y(PongLocal.Altura() / 2);
+                if(vel == 0) bola.defineAcel(1.0);
+            }
+        	
+        	else if(bola.Pos_X() > PongLocal.Largura()){
+                bola.definePos_X(PongLocal.Largura() / 2);
+                bola.definePos_Y(PongLocal.Altura() / 2);
+                if(vel == 0) bola.defineAcel(1.0);
+            }
         }
 	}
 

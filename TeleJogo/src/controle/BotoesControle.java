@@ -166,12 +166,12 @@ public class BotoesControle extends JPanel{
 	
 	ActionListener comecaJogo = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if(paredao.isSelected()) new Paredao();
+			if(paredao.isSelected()) new Paredao(escolhaTamanho, escolhaVelocidade);
 			else {
 				if(escolhaOnline == 1) new PongRede();
 				else {
-					if(escolhaTreino == 0) new PongLocal();
-					else new PongTreino();
+					if(escolhaTreino == 0) new PongLocal(escolhaTamanho, escolhaVelocidade);
+					else new PongTreino(escolhaTamanho, escolhaVelocidade);
 				}
 			}
 		}

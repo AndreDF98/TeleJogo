@@ -27,7 +27,13 @@ public class Paredao extends Jogo{
     
     private Jogador jogador;
     
-	public Paredao() {
+    private int tam;
+    private int vel;
+    
+	public Paredao(int tamanho, int velocidade) {
+		
+		tam = tamanho;
+		vel = velocidade;
 		
 		this.definePlanoFundo(Color.PINK);
 		this.defineTitulo("Teste");
@@ -49,12 +55,20 @@ public class Paredao extends Jogo{
         bola = new Bola();
         
         jogador = new Jogador();
-        jogador.defineTamanho(100, 20);
-        jogador.definePosicao(jogador.CENTRO_Y, 10);
-        jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
+        
+        if(tam == 0) jogador.defineTamanho(50, 20);
+        if(tam == 1) jogador.defineTamanho(100, 20);
+        if(tam == 2) jogador.defineTamanho(150, 20);
+        
+        if(vel == 1) bola.defineVel(4);
+        if(vel == 2) bola.defineVel(6);
+        if(vel == 3) bola.defineVel(11);
+        if(vel == 0) bola.defineVel(4); // velocidade inicial
+        
+        jogador.definePosicao(jogador.CENTRO_Y, 50);
+        jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y() - 1);
         
         teclas = new boolean[]{false,false,false,false};
-		
         
 	}
 	
@@ -73,22 +87,28 @@ public class Paredao extends Jogo{
 	@Override
 	public void checaColisao() {
 		//colisao no jogador
-		if(bola.Pos_X() < (jogador.Pos_X() + jogador.Largura())) {
-            if((bola.Pos_Y() + bola.Diametro() > jogador.Pos_Y()) && (bola.Pos_Y() < (jogador.Pos_Y() + jogador.Altura())))
+		if(bola.Pos_X() < (jogador.Pos_X() + jogador.Largura()) && bola.Pos_X() + bola.Diametro() > jogador.Pos_X()) {
+            if((bola.Pos_Y() + bola.Diametro() > jogador.Pos_Y()) && (bola.Pos_Y() < (jogador.Pos_Y() + jogador.Altura()))) {
                 bola.inverteVelX();
-            
-            else if(bola.Pos_X() < 0){
-                bola.definePos_X(Paredao.Largura() / 2);
-                bola.definePos_Y(Paredao.Altura() / 2);
-                bola.inverteVelX();
+                if(vel == 0) bola.aumentaAcel(0.2);
             }
+            
         }
-		//colisao nos obstaculos
+		
         else{
+        	//colisao nos obstaculos
         	if(bola.Pos_Y() < obCima.Pos_Y() + obCima.Altura() || bola.Pos_Y() + bola.Diametro() > obBaixo.Pos_Y())
         		bola.inverteVelY();
         	if(bola.Pos_X() + bola.Diametro() > obDireita.Pos_X())
                 bola.inverteVelX();
+        	
+        	//bola fora de tela
+        	else if(bola.Pos_X() + bola.Diametro() < 0){
+                bola.definePos_X(Paredao.Largura() / 2);
+                bola.definePos_Y(Paredao.Altura() / 2);
+                bola.inverteVelX();
+                if(vel == 0) bola.defineAcel(1.0);
+            }
         }
 	}
 
