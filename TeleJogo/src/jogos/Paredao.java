@@ -12,6 +12,7 @@ import framework.Bola;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
+import framework.Placar;
 
 public class Paredao extends Jogo{
 	
@@ -36,7 +37,7 @@ public class Paredao extends Jogo{
 		vel = velocidade;
 		
 		this.definePlanoFundo(Color.PINK);
-		this.defineTitulo("Teste");
+		this.defineTitulo("Paredao");
 		
         timer.start();
         
@@ -53,6 +54,7 @@ public class Paredao extends Jogo{
         obDireita.definePosicao(0,  Paredao.Largura() - 50 - 6);
         
         bola = new Bola();
+        placar = new Placar();
         
         jogador = new Jogador();
         
@@ -91,6 +93,7 @@ public class Paredao extends Jogo{
             if((bola.Pos_Y() + bola.Diametro() > jogador.Pos_Y()) && (bola.Pos_Y() < (jogador.Pos_Y() + jogador.Altura()))) {
                 bola.inverteVelX();
                 if(vel == 0) bola.aumentaAcel(0.2);
+                placar.aumentaEsq();
             }
             
         }
@@ -100,7 +103,8 @@ public class Paredao extends Jogo{
         	if(bola.Pos_Y() < obCima.Pos_Y() + obCima.Altura() || bola.Pos_Y() + bola.Diametro() > obBaixo.Pos_Y())
         		bola.inverteVelY();
         	if(bola.Pos_X() + bola.Diametro() > obDireita.Pos_X())
-                bola.inverteVelX();
+        		bola.inverteVelX();
+                
         	
         	//bola fora de tela
         	else if(bola.Pos_X() + bola.Diametro() < 0){
@@ -108,6 +112,7 @@ public class Paredao extends Jogo{
                 bola.definePos_Y(Paredao.Altura() / 2);
                 bola.inverteVelX();
                 if(vel == 0) bola.defineAcel(1.0);
+                placar.aumentaDir();
             }
         }
 	}

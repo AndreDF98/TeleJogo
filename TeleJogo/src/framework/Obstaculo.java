@@ -14,7 +14,7 @@ public class Obstaculo {
     	
     	altura = 50;
     	largura = 50;
-    	this.definePosicao(CENTRO_X, CENTRO_Y); //Centraliza o obstaculo verticalmente e horizontalmente
+    	this.definePosicao(CENTRO_X - largura, CENTRO_Y - altura); //Centraliza o obstaculo verticalmente e horizontalmente
     	
     }
 

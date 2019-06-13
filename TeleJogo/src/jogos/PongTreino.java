@@ -11,6 +11,7 @@ import framework.Computador;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
+import framework.Placar;
 
 public class PongTreino extends Jogo {
 
@@ -34,7 +35,7 @@ public class PongTreino extends Jogo {
 		vel = velocidade;
 		
 		this.definePlanoFundo(Color.BLUE);
-		this.defineTitulo("Teste2");
+		this.defineTitulo("Tenis");
 		
         timer.start();
         
@@ -46,7 +47,12 @@ public class PongTreino extends Jogo {
         obBaixo.defineTamanho(50, PongTreino.Largura());
         obBaixo.definePosicao(PongTreino.Altura() - 50 - 29, 0);
         
+        rede = new Obstaculo();
+        rede.defineTamanho(PongLocal.Altura(), 50);
+        rede.definePosicao(0, PongLocal.Largura()/2 - rede.Largura());
+        
         bola = new Bola();
+        placar = new Placar();
         
         jogador = new Jogador();
         computador = new Computador();
@@ -115,12 +121,14 @@ public class PongTreino extends Jogo {
                 bola.definePos_X(PongLocal.Largura() / 2);
                 bola.definePos_Y(PongLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
+                placar.aumentaDir();
             }
         	
         	else if(bola.Pos_X() > PongLocal.Largura()){
                 bola.definePos_X(PongLocal.Largura() / 2);
                 bola.definePos_Y(PongLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
+                placar.aumentaEsq();
             }
         }
 	}
@@ -138,6 +146,7 @@ public class PongTreino extends Jogo {
     	g.setColor(Color.GRAY);
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
+        g.fillRect(rede.Pos_X(), rede.Pos_Y(), rede.Largura(), rede.Altura());
         Toolkit.getDefaultToolkit().sync();
     }
 	

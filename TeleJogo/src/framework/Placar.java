@@ -9,35 +9,38 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Placar extends JPanel{
-	
-	private JLabel esq;
-	private JLabel dir;
+public class Placar{
 	
 	private int ptsEsq = 0;
 	private int ptsDir = 0;
 	
-	public Placar() {
-		
-		this.setBounds(Jogo.Largura()/2 - 200, Jogo.Altura()/2 - 300, 400, 200);
-		this.setLayout(new GridLayout(1, 2));
-		this.setOpaque(false);
-		
-		esq = new JLabel("" + ptsEsq);
-		dir = new JLabel("" + ptsDir);
-		
-		esq.setHorizontalAlignment(SwingConstants.CENTER);
-		dir.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		//esq.setForeground(Color.WHITE);
-		dir.setForeground(Color.WHITE);
-		
-		//esq.setFont(new Font("Verdana", 10, Font.BOLD));
-		//dir.setFont(new Font("Verdana", 10, Font.BOLD));
-		
-		this.add(esq);
-		this.add(dir);
-		
+	private int pos_x_esq = Jogo.Largura()/2 - 200;
+	private int pos_y_esq = Jogo.Altura()/5;
+	private int pos_x_dir = Jogo.Largura()/2 + 100;
+	private int pos_y_dir = Jogo.Altura()/5;
+	
+	public byte[] PtsEsq() {
+		return ("" + ptsEsq).getBytes();
+	}
+	
+	public byte[] PtsDir() {
+		return ("" + ptsDir).getBytes();
+	}
+	
+	public int Pos_X_Esq() {
+		return pos_x_esq;
+	}
+	
+	public int Pos_Y_Esq() {
+		return pos_y_esq;
+	}
+	
+	public int Pos_X_Dir() {
+		return pos_x_dir;
+	}
+	
+	public int Pos_Y_Dir() {
+		return pos_y_dir;
 	}
 	
 	public void aumentaEsq() {

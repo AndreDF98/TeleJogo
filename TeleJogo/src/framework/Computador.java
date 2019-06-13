@@ -11,22 +11,22 @@ public class Computador extends Jogador{
         if (b.Vel_X() < 0) {
        
             if (meio_y < 150) {
-            	pos_y += vel;
+            	moveBaixo();
             }
            
             else if (meio_y > 150) {
-            	pos_y -= vel;
+            	moveCima();
             }
         } else if (b.Vel_X() > 0) {
         
             if ( meio_y != b.Pos_Y()) {
        
                 if (b.Pos_Y() < meio_y) {
-                	pos_y -= vel;
+                	moveCima();
                 }
       
                 else if (b.Pos_Y() > meio_y) {
-                	pos_y += vel;
+                	moveBaixo();
                 }
             }
         }

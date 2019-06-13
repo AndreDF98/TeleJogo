@@ -20,8 +20,6 @@ public class PongLocal extends Jogo{
     private int CIMA_D = 2;
     private int BAIXO_D = 3;
     
-    private Placar placar;
-    
     private Obstaculo obCima;
     private Obstaculo obBaixo;
     private Obstaculo rede;
@@ -38,10 +36,7 @@ public class PongLocal extends Jogo{
 		vel = velocidade;
 		
 		this.definePlanoFundo(Color.BLUE);
-		this.defineTitulo("Teste2");
-		
-		placar = new Placar();
-		this.add(placar);
+		this.defineTitulo("Tenis");
 		
         timer.start();
         
@@ -53,7 +48,12 @@ public class PongLocal extends Jogo{
         obBaixo.defineTamanho(50, PongLocal.Largura());
         obBaixo.definePosicao(PongLocal.Altura() - 50 - 29, 0);
         
+        rede = new Obstaculo();
+        rede.defineTamanho(PongLocal.Altura(), 50);
+        rede.definePosicao(0, PongLocal.Largura()/2 - rede.Largura());
+        
         bola = new Bola();
+        placar = new Placar();
         
         jogador1 = new Jogador();
         jogador2 = new Jogador();
@@ -115,21 +115,24 @@ public class PongLocal extends Jogo{
             }
             
         }
-		//colisao nos obstaculos
         else{
+        	//colisao nos obstaculos
         	if(bola.Pos_Y() < obCima.Pos_Y() + obCima.Altura() || bola.Pos_Y() + bola.Diametro() > obBaixo.Pos_Y())
         		bola.inverteVelY();
         	
+        	//bola fora da tela
         	if(bola.Pos_X() < 0){
                 bola.definePos_X(PongLocal.Largura() / 2);
                 bola.definePos_Y(PongLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
+                placar.aumentaDir();
             }
         	
         	else if(bola.Pos_X() > PongLocal.Largura()){
                 bola.definePos_X(PongLocal.Largura() / 2);
                 bola.definePos_Y(PongLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
+                placar.aumentaEsq();
             }
         }
 	}
@@ -147,6 +150,7 @@ public class PongLocal extends Jogo{
     	g.setColor(Color.GRAY);
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
+        g.fillRect(rede.Pos_X(), rede.Pos_Y(), rede.Largura(), rede.Altura());
         Toolkit.getDefaultToolkit().sync();
     }
 	

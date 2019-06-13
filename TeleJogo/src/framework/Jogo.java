@@ -2,6 +2,7 @@ package framework;
 
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,7 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 	private JFrame janela = new JFrame();
 	
 	protected Bola bola;
+    protected Placar placar;
 	
 	protected Timer timer;
 	protected int ATRASO = 10;
@@ -72,30 +74,38 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 		ATRASO = a;
 	}
 
-	//O jogo deve possuir os seguintes listeners e funcoes:
+	//O jogo deve possuir os seguintes listeners e funcoes (podem ser definidos de maneira diferente dependendo do jogo):
 	
 	@Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
     	desenhaObstaculo(g);
+    	desenhaPlacar(g);
+    	desenhaJogador(g);
     	desenhaBola(g);
-        desenhaJogador(g);
+        
     }
-	
-	//estes serão configurados de maneira diferente em cada jogo:
 	
 	public void checaColisao() {}
 
-    public void desenhaJogador(Graphics g) {}
+	public void desenhaObstaculo(Graphics g) {}
 
+	public void desenhaPlacar(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Agency FB", Font.BOLD, 50));
+		g.drawBytes(placar.PtsEsq(), 0, placar.PtsEsq().length, placar.Pos_X_Esq(), placar.Pos_Y_Esq());
+		g.drawBytes(placar.PtsDir(), 0, placar.PtsDir().length, placar.Pos_X_Dir(), placar.Pos_Y_Dir());
+		Toolkit.getDefaultToolkit().sync();
+	}
+	
+	public void desenhaJogador(Graphics g) {}
+	
 	public void desenhaBola(Graphics g) {
     	g.setColor(Color.WHITE);
         g.fillRect(bola.Pos_X(),bola.Pos_Y(), bola.Diametro(), bola.Diametro());
         Toolkit.getDefaultToolkit().sync();
     }
     
-    public void desenhaObstaculo(Graphics g) {}
-	
 	@Override
 	public void keyPressed(KeyEvent arg0) {}
 
