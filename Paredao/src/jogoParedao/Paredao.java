@@ -19,8 +19,7 @@ public class Paredao extends Jogo{
 	private boolean teclas[]; //Esse vetor guarda quais teclas estão sendo tecladas
     private int CIMA = 0;
     private int BAIXO = 1;
-    //private int DIREITA = 2;
-    //private int ESQUERDA = 3;
+    private int ESPACO = 2;
     
     private Obstaculo obCima;
     private Obstaculo obBaixo;
@@ -70,18 +69,17 @@ public class Paredao extends Jogo{
         jogador.definePosicao(jogador.CENTRO_Y, 50);
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y() - 1);
         
-        teclas = new boolean[]{false,false,false,false};
+        teclas = new boolean[]{false,false,false,false,false};
         
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		bola.move();
+		if(pausa == false) bola.move();
         checaColisao();
         if(teclas[CIMA]) jogador.moveCima();
         if(teclas[BAIXO]) jogador.moveBaixo();
-        //if(teclas[DIREITA]) jogador.moveDireita();
-        //if(teclas[ESQUERDA]) jogador.moveEsquerda();
+        if(teclas[ESPACO]) pausa = false;
         repaint();
 		
 	}
@@ -113,6 +111,7 @@ public class Paredao extends Jogo{
                 bola.inverteVelX();
                 if(vel == 0) bola.defineAcel(1.0);
                 placar.aumentaDir();
+                pausa = true;
             }
         }
 	}
@@ -141,13 +140,10 @@ public class Paredao extends Jogo{
         if(e.getKeyCode() == KeyEvent.VK_DOWN) {
         	teclas[BAIXO] = true;
         }
-//        if(e.getKeyCode() == KeyEvent.VK_LEFT){
-//        	teclas[ESQUERDA] = true;
-//        }
-//        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-//        	teclas[DIREITA] = true;
-//        }
-		
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	teclas[ESPACO] = true;
+        }
+        
 	}
 
 	@Override
@@ -158,12 +154,9 @@ public class Paredao extends Jogo{
         if(e.getKeyCode() == KeyEvent.VK_DOWN) {
         	teclas[BAIXO] = false;
         }
-//        if(e.getKeyCode() == KeyEvent.VK_LEFT){
-//        	teclas[ESQUERDA] = false;
-//        }
-//        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-//        	teclas[DIREITA] = false;
-//        }
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	teclas[ESPACO] = false;
+        }
 		
 	}
 	

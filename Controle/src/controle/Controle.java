@@ -5,11 +5,9 @@ import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
-import jogosTenis.TenisLocal;
-import jogosTenis.TenisTreino;
-
-public class Controle extends JFrame{
+public class Controle extends JFrame {
 	
 	Container conteudo;
 	JLabel fundo;
@@ -45,8 +43,11 @@ public class Controle extends JFrame{
 	}
 	
 	public static void main(String args[]) {
-		new Controle();
-		
+		SwingUtilities.invokeLater(new Runnable() {
+	        public void run() {
+	        	new Controle();
+	        }
+	    });
 	}
 	
 }

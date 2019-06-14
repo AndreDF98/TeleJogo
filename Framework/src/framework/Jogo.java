@@ -28,6 +28,8 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 	protected Timer timer;
 	protected int ATRASO = 6;
 	
+	protected boolean pausa = true; //o jogo inicia pausado
+	
 	public Jogo() {
 		
 		this.definePlanoFundo(Color.BLACK);
@@ -87,7 +89,7 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
     public void paintComponent(Graphics g) { //template method
     	super.paintComponent(g);
     	desenhaObstaculo(g);
-    	desenhaPlacar(g);
+    	if(pausa == true) desenhaPlacar(g);
     	desenhaBola(g);
     	desenhaJogador(g);
     }

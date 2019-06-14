@@ -18,6 +18,7 @@ public class TenisTreino extends Jogo {
 	private boolean teclas[]; //Esse vetor guarda quais teclas estão sendo tecladas
     private int CIMA = 0;
     private int BAIXO = 1;
+    private int ESPACO = 2;
     
     private Obstaculo obCima;
     private Obstaculo obBaixo;
@@ -49,7 +50,7 @@ public class TenisTreino extends Jogo {
         
         rede = new Obstaculo();
         rede.defineTamanho(TenisLocal.Altura(), 50);
-        rede.definePosicao(0, TenisLocal.Largura()/2 - rede.Largura());
+        rede.definePosicao(0, TenisLocal.Largura()/2 - rede.Largura()/2);
         
         bola = new Bola();
         placar = new Placar();
@@ -81,17 +82,18 @@ public class TenisTreino extends Jogo {
         computador.definePosicao(computador.CENTRO_Y, TenisTreino.Largura() - 20 - 50);
         computador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
-        teclas = new boolean[]{false,false,false,false};
+        teclas = new boolean[]{false,false,false,false,false};
 		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		bola.move();
+		if(pausa == false) bola.move();
 		computador.moveVertical(bola);
         checaColisao();
         if(teclas[CIMA]) jogador.moveCima();
         if(teclas[BAIXO]) jogador.moveBaixo();
+        if(teclas[ESPACO]) pausa = false;
         repaint();
 		
 	}
@@ -122,6 +124,7 @@ public class TenisTreino extends Jogo {
                 bola.definePos_Y(TenisLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
                 placar.aumentaDir();
+                pausa = true;
             }
         	
         	else if(bola.Pos_X() > TenisLocal.Largura()){
@@ -129,6 +132,7 @@ public class TenisTreino extends Jogo {
                 bola.definePos_Y(TenisLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
                 placar.aumentaEsq();
+                pausa = true;
             }
         }
 	}
@@ -158,6 +162,9 @@ public class TenisTreino extends Jogo {
         if(e.getKeyCode() == KeyEvent.VK_DOWN) {
         	teclas[BAIXO] = true;
         }
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	teclas[ESPACO] = true;
+        }
 		
 	}
 
@@ -168,6 +175,9 @@ public class TenisTreino extends Jogo {
         }
         if(e.getKeyCode() == KeyEvent.VK_DOWN) {
         	teclas[BAIXO] = false;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	teclas[ESPACO] = false;
         }
 		
 	}

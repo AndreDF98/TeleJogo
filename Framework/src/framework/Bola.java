@@ -17,8 +17,8 @@ public class Bola {
         vel_y = 5;
         acel = 1;
         diametro = 20;
-        pos_x = Jogo.Largura()/2;
-        pos_y = Jogo.Altura()/2;
+        pos_x = Jogo.Largura()/2 - diametro/2;
+        pos_y = Jogo.Altura()/2 - diametro/2;
 
     }
 

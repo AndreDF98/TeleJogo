@@ -19,6 +19,7 @@ public class TenisLocal extends Jogo{
     private int BAIXO_E = 1;
     private int CIMA_D = 2;
     private int BAIXO_D = 3;
+    private int ESPACO = 4;
     
     private Obstaculo obCima;
     private Obstaculo obBaixo;
@@ -50,7 +51,7 @@ public class TenisLocal extends Jogo{
         
         rede = new Obstaculo();
         rede.defineTamanho(TenisLocal.Altura(), 50);
-        rede.definePosicao(0, TenisLocal.Largura()/2 - rede.Largura());
+        rede.definePosicao(0, TenisLocal.Largura()/2 - rede.Largura()/2);
         
         bola = new Bola();
         placar = new Placar();
@@ -83,18 +84,19 @@ public class TenisLocal extends Jogo{
         jogador2.definePosicao(jogador2.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
         jogador2.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
-        teclas = new boolean[]{false,false,false,false};
+        teclas = new boolean[]{false,false,false,false,false};
 		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		bola.move();
+		if(pausa == false) { bola.move(); }
         checaColisao();
         if(teclas[CIMA_E]) jogador1.moveCima();
         if(teclas[BAIXO_E]) jogador1.moveBaixo();
         if(teclas[CIMA_D]) jogador2.moveCima();
         if(teclas[BAIXO_D]) jogador2.moveBaixo();
+        if(teclas[ESPACO]) pausa = false;
         repaint();
 		
 	}
@@ -126,6 +128,7 @@ public class TenisLocal extends Jogo{
                 bola.definePos_Y(TenisLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
                 placar.aumentaDir();
+                pausa = true;
             }
         	
         	else if(bola.Pos_X() > TenisLocal.Largura()){
@@ -133,6 +136,7 @@ public class TenisLocal extends Jogo{
                 bola.definePos_Y(TenisLocal.Altura() / 2);
                 if(vel == 0) bola.defineAcel(1.0);
                 placar.aumentaEsq();
+                pausa = true;
             }
         }
 	}
@@ -168,7 +172,10 @@ public class TenisLocal extends Jogo{
         if(e.getKeyCode() == KeyEvent.VK_S){
         	teclas[BAIXO_E] = true;
         }
-		
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	teclas[ESPACO] = true;
+        }
+        
 	}
 
 	@Override
@@ -184,6 +191,9 @@ public class TenisLocal extends Jogo{
         }
         if(e.getKeyCode() == KeyEvent.VK_S){
         	teclas[BAIXO_E] = false;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+        	teclas[ESPACO] = false;
         }
 		
 	}
