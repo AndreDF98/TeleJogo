@@ -11,7 +11,7 @@ public class Jogador extends Obstaculo{
 
     public Jogador() {
     	
-    	vel = 15;
+    	vel = 8;
     	altura = 50;
     	largura = 50;
     	this.definePosicao(CENTRO_Y, CENTRO_X); //Centraliza o jogador verticalmente e horizontalmente
@@ -21,6 +21,10 @@ public class Jogador extends Obstaculo{
         limiteDireita = Jogo.Largura() - largura;
         limiteEsquerda = 0;
     	
+    }
+    
+    public void defineVel(int v) {
+    	vel = v;
     }
     
     public void defineLimitesHoriz(int a, int b) {

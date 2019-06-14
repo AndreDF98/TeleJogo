@@ -46,6 +46,10 @@ public class Bola {
     public int Vel_Y() {
     	return vel_y;
     }
+    
+    public double Acel() {
+    	return acel;
+    }
 
     public void inverteVelX(){
         vel_x = -vel_x;

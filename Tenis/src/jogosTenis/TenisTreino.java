@@ -35,7 +35,7 @@ public class TenisTreino extends Jogo {
 		vel = velocidade;
 		
 		this.definePlanoFundo(Color.BLUE);
-		this.defineTitulo("Tenis");
+		this.defineTitulo("Tênis");
 		
         timer.start();
         
@@ -70,10 +70,10 @@ public class TenisTreino extends Jogo {
         	computador.defineTamanho(150, 20);
         }
         
-        if(vel == 1) bola.defineVel(4);
-        if(vel == 2) bola.defineVel(6);
-        if(vel == 3) bola.defineVel(11);
-        if(vel == 0) bola.defineVel(4); // velocidade inicial
+        if(vel == 1) bola.defineVel(3);
+        if(vel == 2) bola.defineVel(4);
+        if(vel == 3) bola.defineVel(8);
+        if(vel == 0) bola.defineVel(2); // velocidade inicial
         
         jogador.definePosicao(jogador.CENTRO_Y, 50);
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
@@ -99,14 +99,14 @@ public class TenisTreino extends Jogo {
 	@Override
 	public void checaColisao() {
 		//colisao nos jogadores
-		if(bola.Pos_X() < (jogador.Pos_X() + jogador.Largura()) && bola.Pos_X() + bola.Diametro() > jogador.Pos_X()) {
+		if(bola.Pos_X() < (jogador.Pos_X() + jogador.Largura()) && bola.Pos_X() + bola.Diametro() > jogador.Pos_X() + jogador.Largura()) {
             if((bola.Pos_Y() + bola.Diametro() > jogador.Pos_Y()) && (bola.Pos_Y() < (jogador.Pos_Y() + jogador.Altura()))) {
                 bola.inverteVelX();
-                if(vel == 0) bola.aumentaAcel(0.2);
+                if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
             }
             
         }
-		if(bola.Pos_X() < computador.Pos_X() + computador.Largura() && bola.Pos_X() + bola.Diametro() > computador.Pos_X()) {
+		if(bola.Pos_X() < computador.Pos_X() && bola.Pos_X() + bola.Diametro() > computador.Pos_X()) {
             if((bola.Pos_Y() + bola.Diametro() > computador.Pos_Y()) && (bola.Pos_Y() < (computador.Pos_Y() + computador.Altura()))) {
                 bola.inverteVelX();
             }

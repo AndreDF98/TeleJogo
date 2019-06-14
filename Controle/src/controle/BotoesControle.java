@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import jogoParedao.Paredao;
+import jogosFut.FutLocal;
+import jogosFut.FutRede;
+import jogosFut.FutTreino;
 import jogosTenis.TenisLocal;
 import jogosTenis.TenisRede;
 import jogosTenis.TenisTreino;
@@ -24,8 +27,9 @@ public class BotoesControle extends JPanel{
 	JButton online;
 	
 	ButtonGroup jogos;
-	JRadioButton paredao;
 	JRadioButton tenis;
+	JRadioButton paredao;
+	JRadioButton futebol;
 	JButton trocaJogo;
 	
 	int escolhaTreino = 0;
@@ -88,16 +92,21 @@ public class BotoesControle extends JPanel{
 		
 		jogos = new ButtonGroup();
 		tenis = new JRadioButton("TÊNIS");
-		tenis.setBounds(260,135, 80, 20);
+		tenis.setBounds(260,115, 80, 20);
 		tenis.setFont(fonte);
 		tenis.setSelected(true);
 		paredao = new JRadioButton("PAREDÃO");
-		paredao.setBounds(260,155, 90, 20);
+		paredao.setBounds(260,135, 90, 20);
 		paredao.setFont(fonte);
+		futebol = new JRadioButton("FUTEBOL");
+		futebol.setBounds(260,155, 90, 20);
+		futebol.setFont(fonte);
 		jogos.add(tenis);
 		jogos.add(paredao);
+		jogos.add(futebol);
 		this.add(tenis);
 		this.add(paredao);
+		this.add(futebol);
 		
 		trocaJogo = new JButton(new ImageIcon(getClass().getResource("../botaoGrande.png")));
 		trocaJogo.setContentAreaFilled(false);
@@ -155,19 +164,27 @@ public class BotoesControle extends JPanel{
 	
 	ActionListener mudaJogo = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if(paredao.isSelected()) tenis.setSelected(true);
-			else paredao.setSelected(true);
+			if(paredao.isSelected()) futebol.setSelected(true);
+			else if(tenis.isSelected()) paredao.setSelected(true);
+			else tenis.setSelected(true);
 		}
 	};
 	
 	ActionListener comecaJogo = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if(paredao.isSelected()) new Paredao(escolhaTamanho, escolhaVelocidade);
-			else {
-				if(escolhaOnline == 1) new TenisRede();
+			else if(tenis.isSelected()){
+				if(escolhaOnline == 1) new TenisRede(escolhaTamanho, escolhaVelocidade);
 				else {
 					if(escolhaTreino == 0) new TenisLocal(escolhaTamanho, escolhaVelocidade);
 					else new TenisTreino(escolhaTamanho, escolhaVelocidade);
+				}
+			}
+			else {
+				if(escolhaOnline == 1) new FutRede(escolhaTamanho, escolhaVelocidade);
+				else {
+					if(escolhaTreino == 0) new FutLocal(escolhaTamanho, escolhaVelocidade);
+					else new FutTreino(escolhaTamanho, escolhaVelocidade);
 				}
 			}
 		}

@@ -37,7 +37,7 @@ public class Paredao extends Jogo{
 		vel = velocidade;
 		
 		this.definePlanoFundo(Color.PINK);
-		this.defineTitulo("Paredao");
+		this.defineTitulo("Paredão");
 		
         timer.start();
         
@@ -62,10 +62,10 @@ public class Paredao extends Jogo{
         if(tam == 1) jogador.defineTamanho(100, 20);
         if(tam == 2) jogador.defineTamanho(150, 20);
         
-        if(vel == 1) bola.defineVel(4);
-        if(vel == 2) bola.defineVel(6);
-        if(vel == 3) bola.defineVel(11);
-        if(vel == 0) bola.defineVel(4); // velocidade inicial
+        if(vel == 1) bola.defineVel(3);
+        if(vel == 2) bola.defineVel(4);
+        if(vel == 3) bola.defineVel(8);
+        if(vel == 0) bola.defineVel(2); // velocidade inicial
         
         jogador.definePosicao(jogador.CENTRO_Y, 50);
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y() - 1);
@@ -89,10 +89,10 @@ public class Paredao extends Jogo{
 	@Override
 	public void checaColisao() {
 		//colisao no jogador
-		if(bola.Pos_X() < (jogador.Pos_X() + jogador.Largura()) && bola.Pos_X() + bola.Diametro() > jogador.Pos_X()) {
+		if(bola.Pos_X() < (jogador.Pos_X() + jogador.Largura()) && bola.Pos_X() + bola.Diametro() > jogador.Pos_X() + jogador.Largura()) {
             if((bola.Pos_Y() + bola.Diametro() > jogador.Pos_Y()) && (bola.Pos_Y() < (jogador.Pos_Y() + jogador.Altura()))) {
                 bola.inverteVelX();
-                if(vel == 0) bola.aumentaAcel(0.2);
+                if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
                 placar.aumentaEsq();
             }
             

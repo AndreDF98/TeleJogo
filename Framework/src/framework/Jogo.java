@@ -26,7 +26,7 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
     protected Placar placar;
 	
 	protected Timer timer;
-	protected int ATRASO = 10;
+	protected int ATRASO = 6;
 	
 	public Jogo() {
 		
@@ -88,9 +88,8 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
     	super.paintComponent(g);
     	desenhaObstaculo(g);
     	desenhaPlacar(g);
-    	desenhaJogador(g);
     	desenhaBola(g);
-        
+    	desenhaJogador(g);
     }
 	
 	public void checaColisao() {}
