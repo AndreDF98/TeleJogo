@@ -109,8 +109,10 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 	public void desenhaJogador(Graphics g) {}
 	
 	public void desenhaBola(Graphics g) {
+    	g.setColor(Color.BLACK);
+    	g.fillRect(bola.Pos_X() - 1, bola.Pos_Y() - 1, bola.Diametro() + 2, bola.Diametro() + 2);
     	g.setColor(Color.WHITE);
-        g.fillRect(bola.Pos_X(),bola.Pos_Y(), bola.Diametro(), bola.Diametro());
+        g.fillRect(bola.Pos_X(), bola.Pos_Y(), bola.Diametro(), bola.Diametro());
         Toolkit.getDefaultToolkit().sync();
     }
     

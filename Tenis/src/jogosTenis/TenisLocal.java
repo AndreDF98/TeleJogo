@@ -36,7 +36,6 @@ public class TenisLocal extends Jogo{
 		tam = tamanho;
 		vel = velocidade;
 		
-		this.definePlanoFundo(Color.BLUE);
 		this.defineTitulo("Tênis");
 		
         timer.start();
@@ -143,7 +142,7 @@ public class TenisLocal extends Jogo{
 
     @Override
 	public void desenhaJogador(Graphics g) {
-    	g.setColor(Color.BLACK);
+    	g.setColor(Color.WHITE);
         g.fillRect(jogador1.Pos_X(), jogador1.Pos_Y(), jogador1.Largura(), jogador1.Altura());
         g.fillRect(jogador2.Pos_X(), jogador2.Pos_Y(), jogador2.Largura(), jogador2.Altura());
         Toolkit.getDefaultToolkit().sync();
@@ -151,7 +150,7 @@ public class TenisLocal extends Jogo{
     
     @Override
 	public void desenhaObstaculo(Graphics g) {
-    	g.setColor(Color.GRAY);
+    	g.setColor(Color.WHITE);
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
         g.fillRect(rede.Pos_X(), rede.Pos_Y(), rede.Largura(), rede.Altura());

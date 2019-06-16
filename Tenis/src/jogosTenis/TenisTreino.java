@@ -35,7 +35,6 @@ public class TenisTreino extends Jogo {
 		tam = tamanho;
 		vel = velocidade;
 		
-		this.definePlanoFundo(Color.BLUE);
 		this.defineTitulo("Tênis");
 		
         timer.start();
@@ -139,7 +138,7 @@ public class TenisTreino extends Jogo {
 
     @Override
 	public void desenhaJogador(Graphics g) {
-    	g.setColor(Color.BLACK);
+    	g.setColor(Color.WHITE);
         g.fillRect(jogador.Pos_X(), jogador.Pos_Y(), jogador.Largura(), jogador.Altura());
         g.fillRect(computador.Pos_X(), computador.Pos_Y(), computador.Largura(), computador.Altura());
         Toolkit.getDefaultToolkit().sync();
@@ -147,7 +146,7 @@ public class TenisTreino extends Jogo {
     
     @Override
 	public void desenhaObstaculo(Graphics g) {
-    	g.setColor(Color.GRAY);
+    	g.setColor(Color.WHITE);
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
         g.fillRect(rede.Pos_X(), rede.Pos_Y(), rede.Largura(), rede.Altura());

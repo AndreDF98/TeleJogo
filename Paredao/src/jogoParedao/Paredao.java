@@ -35,7 +35,6 @@ public class Paredao extends Jogo{
 		tam = tamanho;
 		vel = velocidade;
 		
-		this.definePlanoFundo(Color.PINK);
 		this.defineTitulo("Paredão");
 		
         timer.start();
@@ -118,14 +117,14 @@ public class Paredao extends Jogo{
 
     @Override
 	public void desenhaJogador(Graphics g) {
-    	g.setColor(Color.BLACK);
+    	g.setColor(Color.WHITE);
         g.fillRect(jogador.Pos_X(), jogador.Pos_Y(), jogador.Largura(), jogador.Altura());
         Toolkit.getDefaultToolkit().sync();
     }
     
     @Override
 	public void desenhaObstaculo(Graphics g) {
-    	g.setColor(Color.GRAY);
+    	g.setColor(Color.WHITE);
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
         g.fillRect(obDireita.Pos_X(), obDireita.Pos_Y(), obDireita.Largura(), obDireita.Altura());
