@@ -85,34 +85,35 @@ public class Paredao extends Jogo{
 	
 	@Override
 	public void checaColisao() {
-		//colisao no jogador
-		if(bola.Pos_X() < (jogador.Pos_X() + jogador.Largura()) && bola.Pos_X() + bola.Diametro() > jogador.Pos_X() + jogador.Largura()) {
-            if((bola.Pos_Y() + bola.Diametro() > jogador.Pos_Y()) && (bola.Pos_Y() < (jogador.Pos_Y() + jogador.Altura()))) {
-                bola.inverteVelX();
-                if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
-                placar.aumentaEsq();
-            }
-            
-        }
+		if (jogador.faceColisao(bola) == "direita") {
+			bola.inverteVelX();
+			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
+			placar.aumentaEsq();
+		}
 		
-        else{
-        	//colisao nos obstaculos
-        	if(bola.Pos_Y() < obCima.Pos_Y() + obCima.Altura() || bola.Pos_Y() + bola.Diametro() > obBaixo.Pos_Y())
-        		bola.inverteVelY();
-        	if(bola.Pos_X() + bola.Diametro() > obDireita.Pos_X())
-        		bola.inverteVelX();
-                
+		if (jogador.faceColisao(bola) == "cima" || jogador.faceColisao(bola) == "baixo") {
+			bola.inverteVelY();
+		}
+		
+		if (obCima.faceColisao(bola) == "baixo") {
+			bola.inverteVelY();
+		}
+		if (obBaixo.faceColisao(bola) == "cima") {
+			bola.inverteVelY();
+		}
+		if (obDireita.faceColisao(bola) == "esquerda") {
+			bola.inverteVelX();
+		}
         	
-        	//bola fora de tela
-        	else if(bola.Pos_X() + bola.Diametro() < 0){
-                bola.definePos_X(Paredao.Largura() / 2);
-                bola.definePos_Y(Paredao.Altura() / 2);
-                bola.inverteVelX();
-                if(vel == 0) bola.defineAcel(1.0);
-                placar.aumentaDir();
-                pausa = true;
-            }
-        }
+        //bola fora de tela
+		if(bola.Pos_X() + bola.Diametro() < 0){
+            bola.definePos_X(Paredao.Largura() / 2);
+            bola.definePos_Y(Paredao.Altura() / 2);
+            bola.inverteVelX();
+            if(vel == 0) bola.defineAcel(1.0);
+            placar.aumentaDir();
+            pausa = true;
+		}
 	}
 
     @Override

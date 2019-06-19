@@ -102,42 +102,39 @@ public class TenisLocal extends Jogo{
 	
 	@Override
 	public void checaColisao() {
-		//colisao nos jogadores
-		if(bola.Pos_X() < (jogador1.Pos_X() + jogador1.Largura()) && bola.Pos_X() + bola.Diametro() > jogador1.Pos_X() + jogador1.Largura()) {
-            if((bola.Pos_Y() + bola.Diametro() > jogador1.Pos_Y()) && (bola.Pos_Y() < (jogador1.Pos_Y() + jogador1.Altura()))) {
-                bola.inverteVelX();
-                if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
-            }
-            
+		
+		if (jogador1.faceColisao(bola) == "direita") {
+			bola.inverteVelX();
+			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
+		}
+		if (jogador1.faceColisao(bola) == "cima" || jogador1.faceColisao(bola) == "baixo") bola.inverteVelY();
+		
+		if (jogador2.faceColisao(bola) == "esquerda") {
+			bola.inverteVelX();
+			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
+		}
+		if (jogador2.faceColisao(bola) == "cima" || jogador2.faceColisao(bola) == "baixo") bola.inverteVelY();
+		
+		if (obCima.faceColisao(bola) == "baixo") bola.inverteVelY();
+		if (obBaixo.faceColisao(bola) == "cima") bola.inverteVelY();
+		
+        //bola fora da tela
+       	if(bola.Pos_X() < 0){
+       		bola.definePos_X(TenisLocal.Largura() / 2);
+            bola.definePos_Y(TenisLocal.Altura() / 2);
+            if(vel == 0) bola.defineAcel(1.0);
+            placar.aumentaDir();
+            pausa = true;
         }
-		if(bola.Pos_X() < jogador2.Pos_X() && bola.Pos_X() + bola.Diametro() > jogador2.Pos_X()) {
-            if((bola.Pos_Y() + bola.Diametro() > jogador2.Pos_Y()) && (bola.Pos_Y() < (jogador2.Pos_Y() + jogador2.Altura()))) {
-                bola.inverteVelX();
-            }
-            
-        }
-        else{
-        	//colisao nos obstaculos
-        	if(bola.Pos_Y() < obCima.Pos_Y() + obCima.Altura() || bola.Pos_Y() + bola.Diametro() > obBaixo.Pos_Y())
-        		bola.inverteVelY();
         	
-        	//bola fora da tela
-        	if(bola.Pos_X() < 0){
-                bola.definePos_X(TenisLocal.Largura() / 2);
-                bola.definePos_Y(TenisLocal.Altura() / 2);
-                if(vel == 0) bola.defineAcel(1.0);
-                placar.aumentaDir();
-                pausa = true;
-            }
-        	
-        	else if(bola.Pos_X() > TenisLocal.Largura()){
-                bola.definePos_X(TenisLocal.Largura() / 2);
-                bola.definePos_Y(TenisLocal.Altura() / 2);
-                if(vel == 0) bola.defineAcel(1.0);
-                placar.aumentaEsq();
-                pausa = true;
-            }
+       	else if(bola.Pos_X() > TenisLocal.Largura()){
+       		bola.definePos_X(TenisLocal.Largura() / 2);
+            bola.definePos_Y(TenisLocal.Altura() / 2);
+            if(vel == 0) bola.defineAcel(1.0);
+            placar.aumentaEsq();
+            pausa = true;
         }
+       	
 	}
 
     @Override

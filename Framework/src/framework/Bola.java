@@ -39,6 +39,14 @@ public class Bola {
         return diametro;
     }
     
+    public int CentroX() {
+        return pos_x + diametro / 2;
+    }
+    
+    public int CentroY() {
+        return pos_y + diametro / 2;
+    }
+    
     public int Vel_X() {
     	return vel_x;
     }
