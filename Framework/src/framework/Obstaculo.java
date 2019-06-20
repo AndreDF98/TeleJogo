@@ -44,43 +44,49 @@ public class Obstaculo {
     	pos_y = y;
     }
     
-    public String faceColisao(Bola b) { //retorna a face em que a bola colide
+    public boolean colideCima(Bola b) {
+    	if(	b.Pos_X() + b.Diametro() 	> 	pos_x			 	&&
+    		b.Pos_X()					< 	pos_x + largura		&&
+    		b.Pos_Y() + b.Diametro() 	>=	pos_y				&&
+    		b.CentroY()					<=	pos_y				) { 
+    			return true;
+    	}
     	
-    	//colisao esquerda
+    	return false;
+    }
+    
+    public boolean colideBaixo(Bola b) {
+    	if(	b.Pos_X() + b.Diametro()	> 	pos_x 				&&
+        		b.Pos_X() 					< 	pos_x + largura 	&&
+        		b.Pos_Y() 					<= 	pos_y + altura		&&
+        		b.CentroY()					>=	pos_y + altura		) {
+        			return true;
+        	}
+    	
+    	return false;
+    }
+    
+    public boolean colideEsquerda(Bola b) {
     	if(	b.Pos_Y() + b.Diametro() 	>	pos_y				&&
     		b.Pos_Y()					< 	pos_y + altura		&&
     		b.Pos_X() + b.Diametro() 	>=	pos_x				&&
     		b.CentroX()					<=	pos_x				) {
     			
-    			return "esquerda";
+    			return true;
     	}
     	
-    	//colisao direita
+    	return false;
+    }
+    
+    public boolean colideDireita(Bola b) {
     	if(	b.Pos_Y() + b.Diametro()	> 	pos_y				&&
     		b.Pos_Y()					<	pos_y + altura		&&
     		b.Pos_X()					<=	pos_x + largura		&&
     		b.CentroX()					>=	pos_x + largura				) {
-    			return "direita";
+    			return true;
     	}
     	
-    	//colisao cima
-    	if(	b.Pos_X() + b.Diametro() 	> 	pos_x			 	&&
-    		b.Pos_X()					< 	pos_x + largura		&&
-    		b.Pos_Y() + b.Diametro() 	>=	pos_y				&&
-    		b.CentroY()					<=	pos_y				) { 
-    			return "cima";
-    	}
-    	
-    	//colisao baixo
-    	if(	b.Pos_X() + b.Diametro()	> 	pos_x 				&&
-    		b.Pos_X() 					< 	pos_x + largura 	&&
-    		b.Pos_Y() 					<= 	pos_y + altura		&&
-    		b.CentroY()					>=	pos_y + altura		) {
-    			return "baixo";
-    	}
-    	
-    	return "sem_colisao";
-    	
+    	return false;
     }
 	
 }

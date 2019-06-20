@@ -103,20 +103,23 @@ public class TenisLocal extends Jogo{
 	@Override
 	public void checaColisao() {
 		
-		if (jogador1.faceColisao(bola) == "direita") {
+		if (jogador1.colideDireita(bola)) {
 			bola.inverteVelX();
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
-		if (jogador1.faceColisao(bola) == "cima" || jogador1.faceColisao(bola) == "baixo") bola.inverteVelY();
 		
-		if (jogador2.faceColisao(bola) == "esquerda") {
+		if (jogador1.colideCima(bola) || jogador1.colideBaixo(bola)) bola.inverteVelY();
+		
+		if (jogador2.colideEsquerda(bola)) {
 			bola.inverteVelX();
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
-		if (jogador2.faceColisao(bola) == "cima" || jogador2.faceColisao(bola) == "baixo") bola.inverteVelY();
 		
-		if (obCima.faceColisao(bola) == "baixo") bola.inverteVelY();
-		if (obBaixo.faceColisao(bola) == "cima") bola.inverteVelY();
+		if (jogador2.colideCima(bola) || jogador2.colideBaixo(bola)) bola.inverteVelY();
+		
+		if (obCima.colideBaixo(bola)) bola.inverteVelY();
+		
+		if (obBaixo.colideCima(bola)) bola.inverteVelY();
 		
         //bola fora da tela
        	if(bola.Pos_X() < 0){

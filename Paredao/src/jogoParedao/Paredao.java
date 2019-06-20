@@ -85,25 +85,19 @@ public class Paredao extends Jogo{
 	
 	@Override
 	public void checaColisao() {
-		if (jogador.faceColisao(bola) == "direita") {
+		if (jogador.colideDireita(bola)) {
 			bola.inverteVelX();
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 			placar.aumentaEsq();
 		}
 		
-		if (jogador.faceColisao(bola) == "cima" || jogador.faceColisao(bola) == "baixo") {
-			bola.inverteVelY();
-		}
+		if (jogador.colideCima(bola) || jogador.colideBaixo(bola)) bola.inverteVelY();
 		
-		if (obCima.faceColisao(bola) == "baixo") {
-			bola.inverteVelY();
-		}
-		if (obBaixo.faceColisao(bola) == "cima") {
-			bola.inverteVelY();
-		}
-		if (obDireita.faceColisao(bola) == "esquerda") {
-			bola.inverteVelX();
-		}
+		if (obCima.colideBaixo(bola)) bola.inverteVelY();
+		
+		if (obBaixo.colideCima(bola)) bola.inverteVelY();
+		
+		if (obDireita.colideEsquerda(bola)) bola.inverteVelX();
         	
         //bola fora de tela
 		if(bola.Pos_X() + bola.Diametro() < 0){
