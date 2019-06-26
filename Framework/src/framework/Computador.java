@@ -9,7 +9,7 @@ public class Computador extends Jogador {
 		this.defineVel(6);
 	}
 	
-	public void moveVertical(Bola b) {
+	public void segueVertical(Bola b) {
 		meio_y = pos_y + (altura / 2);
 		
         if (b.Vel_X() > 0) {
@@ -27,6 +27,14 @@ public class Computador extends Jogador {
         }
     }
 	
-	public void moveHorizontal() {}
+	public void segueHorizontal() {}
+	
+	public void moveVertical() {
+        pos_y += vel;
+    }
+	
+	public void moveHorizontal() {
+		pos_x += vel;
+	}
 	
 }

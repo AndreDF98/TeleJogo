@@ -27,6 +27,9 @@ public class FutTreino extends Jogo {
     private Obstaculo traveBaixoEsq;
     private Obstaculo traveBaixoDir;
     
+    private Computador[] jogadoresEsq;
+    private Computador[] jogadoresDir;
+    
     private Jogador jogador;
     private Computador computador;
     
@@ -72,6 +75,25 @@ public class FutTreino extends Jogo {
         jogador = new Jogador();
         computador = new Computador();
         
+        jogadoresEsq = new Computador[3];
+        jogadoresDir = new Computador[3];
+        
+        int distancia = 0;
+        for(int i = 0; i < 3; i++) {
+        	jogadoresEsq[i] = new Computador();
+        	jogadoresEsq[i].defineTamanho(30, 20);
+        	jogadoresEsq[i].definePosicao(50 + distancia, FutLocal.Largura()/2 - 320 - 20);
+        	jogadoresEsq[i].defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
+        	jogadoresEsq[i].defineVel(3);
+        	jogadoresDir[i] = new Computador();
+        	jogadoresDir[i].defineTamanho(30, 20);
+        	jogadoresDir[i].definePosicao(180 + distancia, FutLocal.Largura()/2 + 320);
+        	jogadoresDir[i].defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
+        	jogadoresDir[i].defineVel(3);
+        	
+        	distancia += 250;
+        }
+        
         if(tam == 0) {
         	jogador.defineTamanho(50, 20);
         	computador.defineTamanho(50, 20);
@@ -103,8 +125,10 @@ public class FutTreino extends Jogo {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(pausa == false) bola.move();
-		computador.moveVertical(bola);
+		computador.segueVertical(bola);
         checaColisao();
+        checaBolaFora();
+        moveJogadores();
         if(teclas[CIMA]) jogador.moveCima();
         if(teclas[BAIXO]) jogador.moveBaixo();
         if(teclas[ESPACO]) pausa = false;
@@ -137,9 +161,19 @@ public class FutTreino extends Jogo {
 		
 		if (traveCimaEsq.colideBaixo(bola) || traveBaixoEsq.colideCima(bola) || traveCimaDir.colideBaixo(bola) || traveBaixoDir.colideCima(bola)) bola.inverteVelY();
 		
-		//bola fora da tela
-        if(bola.Pos_X() < 0){
-        	bola.definePos_X(FutTreino.Largura() / 2);
+		for(int i = 0; i < 3; i++) {
+			if(jogadoresEsq[i].colideBaixo(bola) || jogadoresEsq[i].colideCima(bola)) bola.inverteVelY();
+			if(jogadoresDir[i].colideBaixo(bola) || jogadoresDir[i].colideCima(bola)) bola.inverteVelY();
+			if(jogadoresEsq[i].colideEsquerda(bola) || jogadoresEsq[i].colideDireita(bola)) bola.inverteVelX();
+			if(jogadoresDir[i].colideEsquerda(bola) || jogadoresDir[i].colideDireita(bola)) bola.inverteVelX();
+		}
+        	
+	}
+	
+	@Override
+	public void checaBolaFora() {
+		if(bola.Pos_X() < 0){
+       		bola.definePos_X(FutTreino.Largura() / 2);
             bola.definePos_Y(FutTreino.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaDir();
@@ -152,8 +186,25 @@ public class FutTreino extends Jogo {
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
-        }
-        	
+       	}
+	}
+	
+	public void moveJogadores() {
+		for(int i = 0; i < 3; i++) {
+			jogadoresEsq[i].moveVertical();
+			jogadoresDir[i].moveVertical();
+		}
+		
+		if(jogadoresEsq[2].Pos_Y() + jogadoresEsq[2].Altura() > obBaixo.Pos_Y() || jogadoresEsq[0].Pos_Y() < obCima.Altura()) {
+			jogadoresEsq[0].inverteVel();
+			jogadoresEsq[1].inverteVel();
+			jogadoresEsq[2].inverteVel();
+		}
+		if(jogadoresDir[2].Pos_Y() + jogadoresDir[2].Altura() > obBaixo.Pos_Y() || jogadoresDir[0].Pos_Y() < obCima.Altura()) {
+			jogadoresDir[0].inverteVel();
+			jogadoresDir[1].inverteVel();
+			jogadoresDir[2].inverteVel();
+		}
 	}
 
     @Override
@@ -161,6 +212,12 @@ public class FutTreino extends Jogo {
     	g.setColor(Color.WHITE);
         g.fillRect(jogador.Pos_X(), jogador.Pos_Y(), jogador.Largura(), jogador.Altura());
         g.fillRect(computador.Pos_X(), computador.Pos_Y(), computador.Largura(), computador.Altura());
+        
+        for(int i = 0; i < 3; i++) {
+        	g.fillRect(jogadoresEsq[i].Pos_X(), jogadoresEsq[i].Pos_Y(), jogadoresEsq[i].Largura(), jogadoresEsq[i].Altura());
+        	g.fillRect(jogadoresDir[i].Pos_X(), jogadoresDir[i].Pos_Y(), jogadoresDir[i].Largura(), jogadoresDir[i].Altura());
+        }
+        
         Toolkit.getDefaultToolkit().sync();
     }
     

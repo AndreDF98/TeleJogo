@@ -17,7 +17,6 @@ public class Controle extends JFrame {
 	
 	public Controle() {
 		
-		conteudo = new Container();
 		conteudo = this.getContentPane();
 		conteudo.setLayout(null);
 		

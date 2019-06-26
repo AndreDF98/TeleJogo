@@ -91,6 +91,7 @@ public class TenisLocal extends Jogo{
 	public void actionPerformed(ActionEvent arg0) {
 		if(pausa == false) { bola.move(); }
         checaColisao();
+        checaBolaFora();
         if(teclas[CIMA_E]) jogador1.moveCima();
         if(teclas[BAIXO_E]) jogador1.moveBaixo();
         if(teclas[CIMA_D]) jogador2.moveCima();
@@ -120,9 +121,12 @@ public class TenisLocal extends Jogo{
 		if (obCima.colideBaixo(bola)) bola.inverteVelY();
 		
 		if (obBaixo.colideCima(bola)) bola.inverteVelY();
-		
-        //bola fora da tela
-       	if(bola.Pos_X() < 0){
+
+	}
+	
+	@Override
+	public void checaBolaFora() {
+		if(bola.Pos_X() < 0){
        		bola.definePos_X(TenisLocal.Largura() / 2);
             bola.definePos_Y(TenisLocal.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
@@ -136,8 +140,7 @@ public class TenisLocal extends Jogo{
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
-        }
-       	
+       	}
 	}
 
     @Override

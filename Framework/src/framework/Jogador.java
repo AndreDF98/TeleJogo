@@ -27,6 +27,10 @@ public class Jogador extends Obstaculo{
     	vel = v;
     }
     
+    public void inverteVel() {
+    	vel = -vel;
+    }
+    
     public void defineLimitesHoriz(int a, int b) {
     	limiteEsquerda = a;
     	limiteDireita = b;

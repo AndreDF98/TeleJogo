@@ -95,6 +95,8 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
     }
 	
 	public void checaColisao() {}
+	
+	public void checaBolaFora() {}
 
 	public void desenhaObstaculo(Graphics g) {}
 

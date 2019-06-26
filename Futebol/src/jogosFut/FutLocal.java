@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import framework.Bola;
+import framework.Computador;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
@@ -27,6 +28,9 @@ public class FutLocal extends Jogo{
     private Obstaculo traveCimaDir;
     private Obstaculo traveBaixoEsq;
     private Obstaculo traveBaixoDir;
+    
+    private Computador[] jogadoresEsq;
+    private Computador[] jogadoresDir;
     
     private Jogador jogador1;
     private Jogador jogador2;
@@ -70,10 +74,27 @@ public class FutLocal extends Jogo{
         bola = new Bola();
         placar = new Placar();
         
-        System.out.println("" + FutLocal.Altura());
-        
         jogador1 = new Jogador();
         jogador2 = new Jogador();
+        
+        jogadoresEsq = new Computador[3];
+        jogadoresDir = new Computador[3];
+        
+        int distancia = 0;
+        for(int i = 0; i < 3; i++) {
+        	jogadoresEsq[i] = new Computador();
+        	jogadoresEsq[i].defineTamanho(30, 20);
+        	jogadoresEsq[i].definePosicao(50 + distancia, FutLocal.Largura()/2 - 320 - 20);
+        	jogadoresEsq[i].defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
+        	jogadoresEsq[i].defineVel(3);
+        	jogadoresDir[i] = new Computador();
+        	jogadoresDir[i].defineTamanho(30, 20);
+        	jogadoresDir[i].definePosicao(180 + distancia, FutLocal.Largura()/2 + 320);
+        	jogadoresDir[i].defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
+        	jogadoresDir[i].defineVel(3);
+        	
+        	distancia += 250;
+        }
         
         if(tam == 0) {
         	jogador1.defineTamanho(50, 20);
@@ -108,6 +129,8 @@ public class FutLocal extends Jogo{
 	public void actionPerformed(ActionEvent arg0) {
 		if(pausa == false) { bola.move(); }
         checaColisao();
+        checaBolaFora();
+        moveJogadores();
         if(teclas[CIMA_E]) jogador1.moveCima();
         if(teclas[BAIXO_E]) jogador1.moveBaixo();
         if(teclas[CIMA_D]) jogador2.moveCima();
@@ -124,26 +147,31 @@ public class FutLocal extends Jogo{
 			bola.inverteVelX();
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
-		
 		if (jogador1.colideCima(bola) || jogador1.colideBaixo(bola)) bola.inverteVelY();
 		
 		if (jogador2.colideEsquerda(bola)) {
 			bola.inverteVelX();
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
-		
 		if (jogador2.colideCima(bola) || jogador2.colideBaixo(bola)) bola.inverteVelY();
 		
 		if (obCima.colideBaixo(bola) || obBaixo.colideCima(bola)) bola.inverteVelY();
-		
 		if (traveCimaEsq.colideDireita(bola) || traveBaixoEsq.colideDireita(bola)) bola.inverteVelX();
-		
 		if (traveCimaDir.colideEsquerda(bola) || traveBaixoDir.colideEsquerda(bola)) bola.inverteVelX();
-		
 		if (traveCimaEsq.colideBaixo(bola) || traveBaixoEsq.colideCima(bola) || traveCimaDir.colideBaixo(bola) || traveBaixoDir.colideCima(bola)) bola.inverteVelY();
 		
-        //bola fora da tela
-       	if(bola.Pos_X() < 0){
+		for(int i = 0; i < 3; i++) {
+			if(jogadoresEsq[i].colideBaixo(bola) || jogadoresEsq[i].colideCima(bola)) bola.inverteVelY();
+			if(jogadoresDir[i].colideBaixo(bola) || jogadoresDir[i].colideCima(bola)) bola.inverteVelY();
+			if(jogadoresEsq[i].colideEsquerda(bola) || jogadoresEsq[i].colideDireita(bola)) bola.inverteVelX();
+			if(jogadoresDir[i].colideEsquerda(bola) || jogadoresDir[i].colideDireita(bola)) bola.inverteVelX();
+		}
+		
+	}
+	
+	@Override
+	public void checaBolaFora() {
+		if(bola.Pos_X() < 0){
        		bola.definePos_X(FutLocal.Largura() / 2);
             bola.definePos_Y(FutLocal.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
@@ -157,8 +185,25 @@ public class FutLocal extends Jogo{
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
-        }
-       	
+       	}
+	}
+	
+	public void moveJogadores() {
+		for(int i = 0; i < 3; i++) {
+			jogadoresEsq[i].moveVertical();
+			jogadoresDir[i].moveVertical();
+		}
+		
+		if(jogadoresEsq[2].Pos_Y() + jogadoresEsq[2].Altura() > obBaixo.Pos_Y() || jogadoresEsq[0].Pos_Y() < obCima.Altura()) {
+			jogadoresEsq[0].inverteVel();
+			jogadoresEsq[1].inverteVel();
+			jogadoresEsq[2].inverteVel();
+		}
+		if(jogadoresDir[2].Pos_Y() + jogadoresDir[2].Altura() > obBaixo.Pos_Y() || jogadoresDir[0].Pos_Y() < obCima.Altura()) {
+			jogadoresDir[0].inverteVel();
+			jogadoresDir[1].inverteVel();
+			jogadoresDir[2].inverteVel();
+		}
 	}
 
     @Override
@@ -166,6 +211,12 @@ public class FutLocal extends Jogo{
     	g.setColor(Color.WHITE);
         g.fillRect(jogador1.Pos_X(), jogador1.Pos_Y(), jogador1.Largura(), jogador1.Altura());
         g.fillRect(jogador2.Pos_X(), jogador2.Pos_Y(), jogador2.Largura(), jogador2.Altura());
+        
+        for(int i = 0; i < 3; i++) {
+        	g.fillRect(jogadoresEsq[i].Pos_X(), jogadoresEsq[i].Pos_Y(), jogadoresEsq[i].Largura(), jogadoresEsq[i].Altura());
+        	g.fillRect(jogadoresDir[i].Pos_X(), jogadoresDir[i].Pos_Y(), jogadoresDir[i].Largura(), jogadoresDir[i].Altura());
+        }
+        
         Toolkit.getDefaultToolkit().sync();
     }
     

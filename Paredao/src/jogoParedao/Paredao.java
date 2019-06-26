@@ -76,6 +76,7 @@ public class Paredao extends Jogo{
 	public void actionPerformed(ActionEvent arg0) {
 		if(pausa == false) bola.move();
         checaColisao();
+        checaBolaFora();
         if(teclas[CIMA]) jogador.moveCima();
         if(teclas[BAIXO]) jogador.moveBaixo();
         if(teclas[ESPACO]) pausa = false;
@@ -98,8 +99,11 @@ public class Paredao extends Jogo{
 		if (obBaixo.colideCima(bola)) bola.inverteVelY();
 		
 		if (obDireita.colideEsquerda(bola)) bola.inverteVelX();
-        	
-        //bola fora de tela
+        
+	}
+	
+	@Override
+	public void checaBolaFora() {
 		if(bola.Pos_X() + bola.Diametro() < 0){
             bola.definePos_X(Paredao.Largura() / 2);
             bola.definePos_Y(Paredao.Altura() / 2);

@@ -12,15 +12,17 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import jogoParedao.Paredao;
+import jogosFut.CriaRedeFut;
 import jogosFut.FutLocal;
 import jogosFut.FutRede;
 import jogosFut.FutTreino;
+import jogosTenis.CriaRedeTenis;
 import jogosTenis.TenisLocal;
 import jogosTenis.TenisRede;
 import jogosTenis.TenisTreino;
 
 public class BotoesControle extends JPanel{
-
+	
 	JButton treino;
 	JButton velocidade;
 	JButton tamanho;
@@ -174,14 +176,14 @@ public class BotoesControle extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			if(paredao.isSelected()) new Paredao(escolhaTamanho, escolhaVelocidade);
 			else if(tenis.isSelected()){
-				if(escolhaOnline == 1) new TenisRede(escolhaTamanho, escolhaVelocidade);
+				if(escolhaOnline == 1) new CriaRedeTenis(escolhaTamanho, escolhaVelocidade);
 				else {
 					if(escolhaTreino == 0) new TenisLocal(escolhaTamanho, escolhaVelocidade);
 					else new TenisTreino(escolhaTamanho, escolhaVelocidade);
 				}
 			}
 			else {
-				if(escolhaOnline == 1) new FutRede(escolhaTamanho, escolhaVelocidade);
+				if(escolhaOnline == 1) new CriaRedeFut(escolhaTamanho, escolhaVelocidade);
 				else {
 					if(escolhaTreino == 0) new FutLocal(escolhaTamanho, escolhaVelocidade);
 					else new FutTreino(escolhaTamanho, escolhaVelocidade);

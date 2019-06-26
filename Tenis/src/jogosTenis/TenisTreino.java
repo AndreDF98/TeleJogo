@@ -88,8 +88,9 @@ public class TenisTreino extends Jogo {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(pausa == false) bola.move();
-		computador.moveVertical(bola);
+		computador.segueVertical(bola);
         checaColisao();
+        checaBolaFora();
         if(teclas[CIMA]) jogador.moveCima();
         if(teclas[BAIXO]) jogador.moveBaixo();
         if(teclas[ESPACO]) pausa = false;
@@ -117,23 +118,26 @@ public class TenisTreino extends Jogo {
 		if (obCima.colideBaixo(bola)) bola.inverteVelY();
 		
 		if (obBaixo.colideCima(bola)) bola.inverteVelY();
-		
-        if(bola.Pos_X() < 0){
-        	bola.definePos_X(TenisLocal.Largura() / 2);
-            bola.definePos_Y(TenisLocal.Altura() / 2);
+			
+	}
+	
+	@Override
+	public void checaBolaFora() {
+		if(bola.Pos_X() < 0){
+       		bola.definePos_X(TenisTreino.Largura() / 2);
+            bola.definePos_Y(TenisTreino.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaDir();
             pausa = true;
         }
         	
-       	else if(bola.Pos_X() > TenisLocal.Largura()){
-       		bola.definePos_X(TenisLocal.Largura() / 2);
-            bola.definePos_Y(TenisLocal.Altura() / 2);
+       	else if(bola.Pos_X() > TenisTreino.Largura()){
+       		bola.definePos_X(TenisTreino.Largura() / 2);
+            bola.definePos_Y(TenisTreino.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
-        }
-        	
+       	}
 	}
 
     @Override
