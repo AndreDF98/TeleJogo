@@ -15,6 +15,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import javax.swing.JFrame;
+
 import framework.Bola;
 import framework.Computador;
 import framework.Jogador;
@@ -22,7 +24,7 @@ import framework.Jogo;
 import framework.Obstaculo;
 import framework.Placar;
 
-public class TenisRede extends Jogo {
+public class TenisRede extends Jogo implements Runnable{
 
 	private boolean teclas[]; //Esse vetor guarda quais teclas estão sendo tecladas
     private int CIMA = 0;
@@ -47,6 +49,8 @@ public class TenisRede extends Jogo {
     private String tipoConexao;
 	
 	public TenisRede(int tamanho, int velocidade, String ip, String conexao) {
+		
+		this.Janela().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		tam = tamanho;
 		vel = velocidade;
@@ -81,12 +85,15 @@ public class TenisRede extends Jogo {
         
         if(tam == 0) {
         	jogador.defineTamanho(50, 20);
+        	oponente.defineTamanho(50, 20);
         }
         if(tam == 1) {
         	jogador.defineTamanho(100, 20);
+        	oponente.defineTamanho(100, 20);
         }
         if(tam == 2) {
         	jogador.defineTamanho(150, 20);
+        	oponente.defineTamanho(150, 20);
         }
         
         if(vel == 1) bola.defineVel(3);
@@ -94,12 +101,17 @@ public class TenisRede extends Jogo {
         if(vel == 3) bola.defineVel(8);
         if(vel == 0) bola.defineVel(2); // velocidade inicial
         
-        
-        jogador.definePosicao(jogador.CENTRO_Y, 50);
-        
-        oponente.definePosicao(oponente.CENTRO_Y, 500);
+        if(tipoConexao == "host") {
+        	jogador.definePosicao(jogador.CENTRO_Y, 50);
+            oponente.definePosicao(oponente.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
+        }
+        else {
+        	oponente.definePosicao(oponente.CENTRO_Y, 50);
+            jogador.definePosicao(jogador.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
+        }
         
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
+        oponente.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
 		
 	}
 	
@@ -114,23 +126,19 @@ public class TenisRede extends Jogo {
         	
         	 if(clientSoc.isConnected()){ // - If connected a player start to loop - //
         		 
-            		 // - Creating Streams - //
-        			ObjectInputStream getObj = new ObjectInputStream(clientSoc.getInputStream());
-					oponente = (Jogador) getObj.readObject();
-					getObj = null;
-					
-					// - Send Object to Client - //
-					ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
-                 	sendObj.writeObject(jogador);
-                 	sendObj = null;
-                 	
-                 	if(pausa == false) bola.move();
-                    checaColisao();
-                    checaBolaFora();
-                    if(teclas[CIMA]) jogador.moveCima();
-                    if(teclas[BAIXO]) jogador.moveBaixo();
-                    if(teclas[ESPACO]) pausa = false;
-                    repaint();
+        		 Jogador aux;
+        		 
+            	 // - Creating Streams - //
+        		ObjectInputStream getObj = new ObjectInputStream(clientSoc.getInputStream());
+				aux = (Jogador) getObj.readObject();
+				getObj = null;
+				
+				oponente.definePosicao(aux.Pos_Y(), TenisLocal.Largura() - 20 - 50);
+							
+				// - Send Object to Client - //
+				ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
+               	sendObj.writeObject(jogador);
+               	sendObj = null;
                  
         	}
         	 else{
@@ -155,16 +163,10 @@ public class TenisRede extends Jogo {
        			 sendObj = null;
        			 
        			 ObjectInputStream getObj = new ObjectInputStream(clientSoc.getInputStream());
-       			 oponente = (Jogador) getObj.readObject();
+       			 Jogador aux = (Jogador) getObj.readObject();
        			 getObj = null;
        			 
-       			if(pausa == false) bola.move();
-       	        checaColisao();
-       	        checaBolaFora();
-       	        if(teclas[CIMA]) jogador.moveCima();
-       	        if(teclas[BAIXO]) jogador.moveBaixo();
-       	        if(teclas[ESPACO]) pausa = false;
-       	        repaint();
+       			oponente.definePosicao(aux.Pos_Y(), TenisLocal.Largura() - 20 - 50);
        			 
          }
        	 else{
@@ -178,12 +180,20 @@ public class TenisRede extends Jogo {
        }
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		
+	public void run() {
 		if(tipoConexao == "host") hospedaConexao();
 		else acessaConexao();
-		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if(pausa == false) bola.move();
+	    checaColisao();
+	    checaBolaFora();
+	    if(teclas[CIMA]) jogador.moveCima();
+	    if(teclas[BAIXO]) jogador.moveBaixo();
+	    if(teclas[ESPACO]) pausa = false;
+	    repaint();
 	}
 	
 	@Override

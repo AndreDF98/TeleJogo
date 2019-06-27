@@ -82,6 +82,10 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 	public void defineAtraso(int a) {
 		ATRASO = a;
 	}
+	
+	public JFrame Janela() {
+		return janela;
+	}
 
 	//O jogo deve possuir os seguintes listeners e funcoes (podem ser definidos de maneira diferente dependendo do jogo):
 	

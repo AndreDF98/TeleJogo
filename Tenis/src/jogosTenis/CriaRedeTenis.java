@@ -20,8 +20,6 @@ public class CriaRedeTenis extends CriaRede {
 		tam = t;
 		vel = v;
 		
-		
-		
 	}
 	
 	@Override
@@ -33,8 +31,11 @@ public class CriaRedeTenis extends CriaRede {
         }
 		
 		JOptionPane.showMessageDialog(null, "Seu ip é " + ip, "Aviso", 1);
+		System.out.println("Servidor criado com ip " + ip);
 		
 		TenisRede host = new TenisRede(tam, vel, ip, "host");
+		Thread myServerT = new Thread(host);
+		myServerT.start();
 		
 	}
 	
@@ -43,8 +44,15 @@ public class CriaRedeTenis extends CriaRede {
 		
 		ip = JOptionPane.showInputDialog(null, "ip do host: ", "Conectar com ip", 1);
 		
+		try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
+        }
+		
 		if(ip != null) {
 			TenisRede guest = new TenisRede(tam, vel, ip, "guest");
+			Thread myServerT = new Thread(guest);
+			myServerT.start();
 		}
 		
 	}
