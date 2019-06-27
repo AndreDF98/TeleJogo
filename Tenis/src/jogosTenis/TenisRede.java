@@ -6,9 +6,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketException;
 
 import framework.Bola;
@@ -32,19 +36,24 @@ public class TenisRede extends Jogo {
     private Jogador jogador;
     private Jogador oponente;
     
-    DatagramSocket socket;
+    private static Socket                clientSoc  = null;
+	private static ServerSocket          serverSoc  = null;
     
     private int tam;
     private int vel;
     
-    InetAddress ip;
+    String ip;
+    
+    private String tipoConexao;
 	
-	public TenisRede(int tamanho, int velocidade, InetAddress ip, String conexao) {
+	public TenisRede(int tamanho, int velocidade, String ip, String conexao) {
 		
 		tam = tamanho;
 		vel = velocidade;
 		
 		this.ip = ip;
+		
+		tipoConexao = conexao;
 		
 		this.defineTitulo("Tênis");
 		
@@ -85,58 +94,95 @@ public class TenisRede extends Jogo {
         if(vel == 3) bola.defineVel(8);
         if(vel == 0) bola.defineVel(2); // velocidade inicial
         
-        if(conexao == "host")
-        	jogador.definePosicao(jogador.CENTRO_Y, 50);
         
-        if(conexao == "guest")
-        	jogador.definePosicao(jogador.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
+        jogador.definePosicao(jogador.CENTRO_Y, 50);
+        
+        oponente.definePosicao(oponente.CENTRO_Y, 500);
         
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
-        
-        try {
-			socket = new DatagramSocket();
-		}
-		catch(SocketException e) {
-			System.err.println("Erro na criação do socket");
-		}
-        
-        try {
-        	
-        	byte dados[] = (jogador.Pos_X() + "-" +jogador.Pos_Y() + "-" + jogador.Largura() + "-" + jogador.Altura()).getBytes();
-        	
-        	DatagramPacket pacoteEnviado = new DatagramPacket(dados, dados.length, ip, 5000);
-        	
-        	socket.send(pacoteEnviado);
-        	
-        }
-        catch(IOException e) {
-        	System.err.println("Erro na criação ou envio de pacote");
-        }
 		
 	}
 	
-	public void esperaPacotes() {
-		while(true) {
-			try {
-				byte data[] = new byte[100];
-				DatagramPacket pacoteRecebido = new DatagramPacket(data, data.length);
-				socket.receive(pacoteRecebido);
-			}
-			catch(IOException e) {
-				System.err.println("Erro ao receber pacote");
-			}
-		}
+	public void hospedaConexao() {
+		try {
+   		 	serverSoc = new ServerSocket(5000);
+        	 System.out.println("Server has started to running.\nWaiting for a player...");
+        	 System.out.println("Waiting for connection...");
+        	 clientSoc = serverSoc.accept();
+   			 
+        	 System.out.println("Connected a player...");
+        	
+        	 if(clientSoc.isConnected()){ // - If connected a player start to loop - //
+        		 
+            		 // - Creating Streams - //
+        			ObjectInputStream getObj = new ObjectInputStream(clientSoc.getInputStream());
+					oponente = (Jogador) getObj.readObject();
+					getObj = null;
+					
+					// - Send Object to Client - //
+					ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
+                 	sendObj.writeObject(jogador);
+                 	sendObj = null;
+                 	
+                 	if(pausa == false) bola.move();
+                    checaColisao();
+                    checaBolaFora();
+                    if(teclas[CIMA]) jogador.moveCima();
+                    if(teclas[BAIXO]) jogador.moveBaixo();
+                    if(teclas[ESPACO]) pausa = false;
+                    repaint();
+                 
+        	}
+        	 else{
+        		 System.out.println("Disconnected...");
+        	 }
+        }
+        catch (Exception e) {System.out.println(e);}
+	}
+	
+	public void acessaConexao() {
+		try {
+			 
+       	 System.out.println("Finding server...\nConnecting to "+ ip);
+       	 clientSoc = new Socket(ip, 5000);
+   		 System.out.println("Connected to server...");
+           
+       	 if(clientSoc.isConnected()){
+           	System.out.println("TEST");
+           		// - Creating Streams - //
+           		 ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
+       			 sendObj.writeObject(jogador);
+       			 sendObj = null;
+       			 
+       			 ObjectInputStream getObj = new ObjectInputStream(clientSoc.getInputStream());
+       			 oponente = (Jogador) getObj.readObject();
+       			 getObj = null;
+       			 
+       			if(pausa == false) bola.move();
+       	        checaColisao();
+       	        checaBolaFora();
+       	        if(teclas[CIMA]) jogador.moveCima();
+       	        if(teclas[BAIXO]) jogador.moveBaixo();
+       	        if(teclas[ESPACO]) pausa = false;
+       	        repaint();
+       			 
+         }
+       	 else{
+       		 System.out.println("Disconnected...");
+       	 }
+           
+
+       }
+       catch (Exception e) {
+    	   System.err.println("Erro ao conectar no servidor");
+       }
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(pausa == false) bola.move();
-        checaColisao();
-        checaBolaFora();
-        if(teclas[CIMA]) jogador.moveCima();
-        if(teclas[BAIXO]) jogador.moveBaixo();
-        if(teclas[ESPACO]) pausa = false;
-        repaint();
+		
+		if(tipoConexao == "host") hospedaConexao();
+		else acessaConexao();
 		
 	}
 	
@@ -144,6 +190,10 @@ public class TenisRede extends Jogo {
 	public void checaColisao() {
 		
 		if (jogador.colide(bola)) {
+			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
+		}
+		
+		if (oponente.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
 		
@@ -174,6 +224,7 @@ public class TenisRede extends Jogo {
 	public void desenhaJogador(Graphics g) {
     	g.setColor(Color.WHITE);
         g.fillRect(jogador.Pos_X(), jogador.Pos_Y(), jogador.Largura(), jogador.Altura());
+        g.fillRect(oponente.Pos_X(), oponente.Pos_Y(), oponente.Largura(), oponente.Altura());
         Toolkit.getDefaultToolkit().sync();
     }
     
