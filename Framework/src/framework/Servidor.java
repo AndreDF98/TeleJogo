@@ -20,11 +20,9 @@ public class Servidor extends JFrame {
 			System.err.println("Erro na criação do socket");
 		}
 		
-		this.esperaPacotes();
-		
 	}
 	
-	private void esperaPacotes() {
+	public void esperaPacotes() {
 		while(true) {
 			
 			try {

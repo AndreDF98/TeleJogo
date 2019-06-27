@@ -44,6 +44,22 @@ public class Obstaculo {
     	pos_y = y;
     }
     
+    public boolean colide(Bola b) {
+    	
+    	if(colideCima(b) || colideBaixo(b)) {
+    		b.inverteVelY();
+    		return true;
+    	}
+    	
+    	if(colideEsquerda(b) || colideDireita(b)) {
+    		b.inverteVelX();
+    		return true;
+    	}
+    	
+    	
+    	return false;
+    }
+    
     public boolean colideCima(Bola b) {
     	if(	b.Pos_X() + b.Diametro() 	> 	pos_x			 	&&
     		b.Pos_X()					< 	pos_x + largura		&&

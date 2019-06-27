@@ -1,6 +1,8 @@
 package framework;
 
-public class Jogador extends Obstaculo{
+import java.io.Serializable;
+
+public class Jogador extends Obstaculo implements Serializable {
     
     protected int vel;
 	

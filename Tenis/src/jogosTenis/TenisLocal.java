@@ -104,23 +104,15 @@ public class TenisLocal extends Jogo{
 	@Override
 	public void checaColisao() {
 		
-		if (jogador1.colideDireita(bola)) {
-			bola.inverteVelX();
+		if (jogador1.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
 		
-		if (jogador1.colideCima(bola) || jogador1.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (jogador2.colideEsquerda(bola)) {
-			bola.inverteVelX();
+		if (jogador2.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
 		
-		if (jogador2.colideCima(bola) || jogador2.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (obCima.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (obBaixo.colideCima(bola)) bola.inverteVelY();
+		obCima.colide(bola); obBaixo.colide(bola);
 
 	}
 	

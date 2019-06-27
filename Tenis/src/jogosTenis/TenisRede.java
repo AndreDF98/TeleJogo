@@ -5,6 +5,11 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 
 import framework.Bola;
 import framework.Computador;
@@ -25,13 +30,16 @@ public class TenisRede extends Jogo {
     private Obstaculo rede;
     
     private Jogador jogador;
+    private Jogador oponente;
+    
+    DatagramSocket socket;
     
     private int tam;
     private int vel;
     
-    String ip;
+    InetAddress ip;
 	
-	public TenisRede(int tamanho, int velocidade, String ip) {
+	public TenisRede(int tamanho, int velocidade, InetAddress ip, String conexao) {
 		
 		tam = tamanho;
 		vel = velocidade;
@@ -41,6 +49,8 @@ public class TenisRede extends Jogo {
 		this.defineTitulo("Tênis");
 		
         timer.start();
+        
+        teclas = new boolean[]{false,false,false,false,false};
         
         obCima = new Obstaculo();
     	obCima.defineTamanho(50, TenisTreino.Largura());
@@ -58,6 +68,7 @@ public class TenisRede extends Jogo {
         placar = new Placar();
         
         jogador = new Jogador();
+        oponente = new Jogador();
         
         if(tam == 0) {
         	jogador.defineTamanho(50, 20);
@@ -74,11 +85,47 @@ public class TenisRede extends Jogo {
         if(vel == 3) bola.defineVel(8);
         if(vel == 0) bola.defineVel(2); // velocidade inicial
         
-        jogador.definePosicao(jogador.CENTRO_Y, 50);
+        if(conexao == "host")
+        	jogador.definePosicao(jogador.CENTRO_Y, 50);
+        
+        if(conexao == "guest")
+        	jogador.definePosicao(jogador.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
+        
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
-        teclas = new boolean[]{false,false,false,false,false};
+        try {
+			socket = new DatagramSocket();
+		}
+		catch(SocketException e) {
+			System.err.println("Erro na criação do socket");
+		}
+        
+        try {
+        	
+        	byte dados[] = (jogador.Pos_X() + "-" +jogador.Pos_Y() + "-" + jogador.Largura() + "-" + jogador.Altura()).getBytes();
+        	
+        	DatagramPacket pacoteEnviado = new DatagramPacket(dados, dados.length, ip, 5000);
+        	
+        	socket.send(pacoteEnviado);
+        	
+        }
+        catch(IOException e) {
+        	System.err.println("Erro na criação ou envio de pacote");
+        }
 		
+	}
+	
+	public void esperaPacotes() {
+		while(true) {
+			try {
+				byte data[] = new byte[100];
+				DatagramPacket pacoteRecebido = new DatagramPacket(data, data.length);
+				socket.receive(pacoteRecebido);
+			}
+			catch(IOException e) {
+				System.err.println("Erro ao receber pacote");
+			}
+		}
 	}
 	
 	@Override
@@ -96,33 +143,31 @@ public class TenisRede extends Jogo {
 	@Override
 	public void checaColisao() {
 		
-		if (jogador.colideDireita(bola)) {
-			bola.inverteVelX();
+		if (jogador.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
 		
-		if (jogador.colideCima(bola) || jogador.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (obCima.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (obBaixo.colideCima(bola)) bola.inverteVelY();
-		
-        if(bola.Pos_X() < 0){
-        	bola.definePos_X(TenisLocal.Largura() / 2);
-            bola.definePos_Y(TenisLocal.Altura() / 2);
+		obCima.colide(bola); obBaixo.colide(bola);
+        	
+	}
+	
+	@Override
+	public void checaBolaFora() {
+		if(bola.Pos_X() < 0){
+       		bola.definePos_X(TenisTreino.Largura() / 2);
+            bola.definePos_Y(TenisTreino.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaDir();
             pausa = true;
         }
         	
-       	else if(bola.Pos_X() > TenisLocal.Largura()){
-       		bola.definePos_X(TenisLocal.Largura() / 2);
-            bola.definePos_Y(TenisLocal.Altura() / 2);
+       	else if(bola.Pos_X() > TenisTreino.Largura()){
+       		bola.definePos_X(TenisTreino.Largura() / 2);
+            bola.definePos_Y(TenisTreino.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
-        }
-        	
+       	}
 	}
 
     @Override

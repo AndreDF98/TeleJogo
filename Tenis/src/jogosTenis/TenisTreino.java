@@ -101,23 +101,15 @@ public class TenisTreino extends Jogo {
 	@Override
 	public void checaColisao() {
 		
-		if (jogador.colideDireita(bola)) {
-			bola.inverteVelX();
+		if (jogador.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
 		
-		if (jogador.colideCima(bola) || jogador.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (computador.colideEsquerda(bola)) {
-			bola.inverteVelX();
+		if (computador.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
 		
-		if (computador.colideCima(bola) || computador.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (obCima.colideBaixo(bola)) bola.inverteVelY();
-		
-		if (obBaixo.colideCima(bola)) bola.inverteVelY();
+		obCima.colide(bola); obBaixo.colide(bola);
 			
 	}
 	

@@ -143,28 +143,21 @@ public class FutLocal extends Jogo{
 	@Override
 	public void checaColisao() {
 		
-		if (jogador1.colideDireita(bola)) {
-			bola.inverteVelX();
+		if (jogador1.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
-		if (jogador1.colideCima(bola) || jogador1.colideBaixo(bola)) bola.inverteVelY();
 		
-		if (jogador2.colideEsquerda(bola)) {
-			bola.inverteVelX();
+		if (jogador2.colide(bola)) {
 			if(vel == 0 && bola.Acel()*bola.Vel_X() < 10) bola.aumentaAcel(0.5);
 		}
-		if (jogador2.colideCima(bola) || jogador2.colideBaixo(bola)) bola.inverteVelY();
 		
-		if (obCima.colideBaixo(bola) || obBaixo.colideCima(bola)) bola.inverteVelY();
-		if (traveCimaEsq.colideDireita(bola) || traveBaixoEsq.colideDireita(bola)) bola.inverteVelX();
-		if (traveCimaDir.colideEsquerda(bola) || traveBaixoDir.colideEsquerda(bola)) bola.inverteVelX();
-		if (traveCimaEsq.colideBaixo(bola) || traveBaixoEsq.colideCima(bola) || traveCimaDir.colideBaixo(bola) || traveBaixoDir.colideCima(bola)) bola.inverteVelY();
+		obCima.colide(bola); obBaixo.colide(bola);
+		traveCimaEsq.colide(bola); traveBaixoEsq.colide(bola);
+		traveCimaDir.colide(bola); traveBaixoDir.colide(bola);
 		
 		for(int i = 0; i < 3; i++) {
-			if(jogadoresEsq[i].colideBaixo(bola) || jogadoresEsq[i].colideCima(bola)) bola.inverteVelY();
-			if(jogadoresDir[i].colideBaixo(bola) || jogadoresDir[i].colideCima(bola)) bola.inverteVelY();
-			if(jogadoresEsq[i].colideEsquerda(bola) || jogadoresEsq[i].colideDireita(bola)) bola.inverteVelX();
-			if(jogadoresDir[i].colideEsquerda(bola) || jogadoresDir[i].colideDireita(bola)) bola.inverteVelX();
+			jogadoresEsq[i].colide(bola);
+			jogadoresDir[i].colide(bola);
 		}
 		
 	}

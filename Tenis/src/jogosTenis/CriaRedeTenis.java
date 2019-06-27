@@ -10,7 +10,7 @@ public class CriaRedeTenis extends CriaRede {
 	int tam;
 	int vel;
 	
-	String ip;
+	InetAddress ip;
 	
 	public CriaRedeTenis(int t, int v) {
 		this.setTitle("Tênis Online");
@@ -24,18 +24,28 @@ public class CriaRedeTenis extends CriaRede {
 	public void criaServidor() {
 
 		try {
-            ip = InetAddress.getLocalHost().getHostAddress();
+            ip = InetAddress.getLocalHost();
         } catch (Exception e) {
         }
 		
-		//new Servidor();
-		new TenisRede(tam, vel, ip);
+		Servidor servidor = new Servidor();
+		TenisRede host = new TenisRede(tam, vel, ip, "host");
+		
+		//servidor.esperaPacotes();
+		//host.esperaPacotes();
 	}
 	
 	@Override
 	public void criaCliente() {
+		//ip = InetAddress.getLocalHost().getHostAddress();
+		try {//trocar para pegar o ip com o usuario
+            ip = InetAddress.getLocalHost();
+        } catch (Exception e) {
+        }
 		
-		new TenisRede(tam, vel, ip);
+		TenisRede guest = new TenisRede(tam, vel, ip, "guest");
+		//guest.esperaPacotes();
+		
 	}
 	
 }
