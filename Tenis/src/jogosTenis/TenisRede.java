@@ -125,21 +125,31 @@ public class TenisRede extends Jogo implements Runnable{
         	 System.out.println("Connected a player...");
         	
         	 if(clientSoc.isConnected()){ // - If connected a player start to loop - //
+        		 while(true){
         		 
-        		 Jogador aux;
-        		 
-            	 // - Creating Streams - //
-        		ObjectInputStream getObj = new ObjectInputStream(clientSoc.getInputStream());
-				aux = (Jogador) getObj.readObject();
-				getObj = null;
-				
-				oponente.definePosicao(aux.Pos_Y(), TenisLocal.Largura() - 20 - 50);
-							
-				// - Send Object to Client - //
-				ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
-               	sendObj.writeObject(jogador);
-               	sendObj = null;
-                 
+	        		Jogador aux;
+	        		 
+	            	 // - Creating Streams - //
+	        		ObjectInputStream getObj = new ObjectInputStream(clientSoc.getInputStream());
+					aux = (Jogador) getObj.readObject();
+					getObj = null;
+					
+					oponente.definePosicao(aux.Pos_Y(), TenisLocal.Largura() - 20 - 50);
+								
+					// - Send Object to Client - //
+					ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
+	               	sendObj.writeObject(jogador);
+	               	sendObj = null;
+	               	
+	               	if(pausa == false) bola.move();
+	        	    checaColisao();
+	        	    checaBolaFora();
+	        	    if(teclas[CIMA]) jogador.moveCima();
+	        	    if(teclas[BAIXO]) jogador.moveBaixo();
+	        	    if(teclas[ESPACO]) pausa = false;
+	        	    repaint();
+	               	
+        		 }
         	}
         	 else{
         		 System.out.println("Disconnected...");
@@ -156,6 +166,7 @@ public class TenisRede extends Jogo implements Runnable{
    		 System.out.println("Connected to server...");
            
        	 if(clientSoc.isConnected()){
+       		while(true){
            	System.out.println("TEST");
            		// - Creating Streams - //
            		 ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
@@ -167,7 +178,16 @@ public class TenisRede extends Jogo implements Runnable{
        			 getObj = null;
        			 
        			oponente.definePosicao(aux.Pos_Y(), TenisLocal.Largura() - 20 - 50);
-       			 
+       			
+       			if(pausa == false) bola.move();
+       		    checaColisao();
+       		    checaBolaFora();
+       		    if(teclas[CIMA]) jogador.moveCima();
+       		    if(teclas[BAIXO]) jogador.moveBaixo();
+       		    if(teclas[ESPACO]) pausa = false;
+       		    repaint();
+       			
+       		}
          }
        	 else{
        		 System.out.println("Disconnected...");
@@ -187,13 +207,7 @@ public class TenisRede extends Jogo implements Runnable{
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(pausa == false) bola.move();
-	    checaColisao();
-	    checaBolaFora();
-	    if(teclas[CIMA]) jogador.moveCima();
-	    if(teclas[BAIXO]) jogador.moveBaixo();
-	    if(teclas[ESPACO]) pausa = false;
-	    repaint();
+		
 	}
 	
 	@Override
