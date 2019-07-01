@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Jogo extends JPanel  implements ActionListener, KeyListener{
+public abstract class Jogo extends JPanel  implements ActionListener, KeyListener{
 	
 	private static int ALTURA = 800; // criar singleton para configuracao de jogo
 	private static int LARGURA = 1200;
@@ -90,17 +90,13 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 	//O jogo deve possuir os seguintes listeners e funcoes (podem ser definidos de maneira diferente dependendo do jogo):
 	
 	@Override
-    public void paintComponent(Graphics g) { //template method
+    public final void paintComponent(Graphics g) { 
     	super.paintComponent(g);
     	desenhaObstaculo(g);
     	if(pausa == true) desenhaPlacar(g);
     	desenhaBola(g);
     	desenhaJogador(g);
     }
-	
-	public void checaColisao() {}
-	
-	public void checaBolaFora() {}
 
 	public void desenhaObstaculo(Graphics g) {}
 
@@ -112,8 +108,6 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
-	public void desenhaJogador(Graphics g) {}
-	
 	public void desenhaBola(Graphics g) {
     	g.setColor(Color.BLACK);
     	g.fillRect(bola.Pos_X() - 1, bola.Pos_Y() - 1, bola.Diametro() + 2, bola.Diametro() + 2);
@@ -121,6 +115,12 @@ public class Jogo extends JPanel  implements ActionListener, KeyListener{
         g.fillRect(bola.Pos_X(), bola.Pos_Y(), bola.Diametro(), bola.Diametro());
         Toolkit.getDefaultToolkit().sync();
     }
+	
+	public void desenhaJogador(Graphics g) {}
+	
+	public void checaColisao() {}
+	
+	public void checaBolaFora() {}
     
 	@Override
 	public void keyPressed(KeyEvent arg0) {}

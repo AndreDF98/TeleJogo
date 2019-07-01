@@ -1,7 +1,6 @@
 package jogosFut;
 
 import framework.CriaRede;
-import framework.Servidor;
 
 public class CriaRedeFut extends CriaRede {
 
@@ -18,7 +17,6 @@ public class CriaRedeFut extends CriaRede {
 	
 	@Override
 	public void criaServidor() {
-		new Servidor();
 		new FutRede(tam, vel);
 	}
 	

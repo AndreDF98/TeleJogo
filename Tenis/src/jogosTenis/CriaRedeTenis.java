@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import javax.swing.JOptionPane;
 
 import framework.CriaRede;
-import framework.Servidor;
 
 public class CriaRedeTenis extends CriaRede {
 
