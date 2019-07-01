@@ -33,7 +33,7 @@ public abstract class Jogo extends JPanel  implements ActionListener, KeyListene
 		
 		config = ConfigGrafica.Config();
 		
-		this.definePlanoFundo(Color.BLACK);
+		this.definePlanoFundo(config.corFundo());
 		this.defineTamanho(config.LARGURA, config.ALTURA);
 		this.defineTitulo("Jogo");
 		this.setDoubleBuffered(true);
