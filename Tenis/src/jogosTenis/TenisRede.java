@@ -1,24 +1,16 @@
 package jogosTenis;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
-
 import javax.swing.JFrame;
-
 import framework.Bola;
-import framework.Computador;
+import framework.ConfigGrafica;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
@@ -66,16 +58,16 @@ public class TenisRede extends Jogo implements Runnable{
         teclas = new boolean[]{false,false,false,false,false};
         
         obCima = new Obstaculo();
-    	obCima.defineTamanho(50, TenisTreino.Largura());
+    	obCima.defineTamanho(50, this.Largura());
         obCima.definePosicao(0,  0);
         
         obBaixo = new Obstaculo();
-        obBaixo.defineTamanho(50, TenisTreino.Largura());
-        obBaixo.definePosicao(TenisTreino.Altura() - 50 - 29, 0);
+        obBaixo.defineTamanho(50, this.Largura());
+        obBaixo.definePosicao(this.Altura() - 50 - 29, 0);
         
         rede = new Obstaculo();
-        rede.defineTamanho(TenisLocal.Altura(), 50);
-        rede.definePosicao(0, TenisLocal.Largura()/2 - rede.Largura()/2);
+        rede.defineTamanho(this.Altura(), 50);
+        rede.definePosicao(0, this.Largura()/2 - rede.Largura()/2);
         
         bola = new Bola();
         placar = new Placar();
@@ -103,11 +95,11 @@ public class TenisRede extends Jogo implements Runnable{
         
         if(tipoConexao == "host") {
         	jogador.definePosicao(jogador.CENTRO_Y, 50);
-            oponente.definePosicao(oponente.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
+            oponente.definePosicao(oponente.CENTRO_Y, this.Largura() - 20 - 50);
         }
         else {
         	oponente.definePosicao(oponente.CENTRO_Y, 50);
-            jogador.definePosicao(jogador.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
+            jogador.definePosicao(jogador.CENTRO_Y, this.Largura() - 20 - 50);
         }
         
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
@@ -134,7 +126,7 @@ public class TenisRede extends Jogo implements Runnable{
 					aux = (Jogador) getObj.readObject();
 					getObj = null;
 					
-					oponente.definePosicao(aux.Pos_Y(), TenisLocal.Largura() - 20 - 50);
+					oponente.definePosicao(aux.Pos_Y(), this.Largura() - 20 - 50);
 								
 					// - Send Object to Client - //
 					ObjectOutputStream sendObj = new ObjectOutputStream(clientSoc.getOutputStream());
@@ -177,7 +169,7 @@ public class TenisRede extends Jogo implements Runnable{
        			 Jogador aux = (Jogador) getObj.readObject();
        			 getObj = null;
        			 
-       			oponente.definePosicao(aux.Pos_Y(), TenisLocal.Largura() - 20 - 50);
+       			oponente.definePosicao(aux.Pos_Y(), this.Largura() - 20 - 50);
        			
        			if(pausa == false) bola.move();
        		    checaColisao();
@@ -228,16 +220,16 @@ public class TenisRede extends Jogo implements Runnable{
 	@Override
 	public void checaBolaFora() {
 		if(bola.Pos_X() < 0){
-       		bola.definePos_X(TenisTreino.Largura() / 2);
-            bola.definePos_Y(TenisTreino.Altura() / 2);
+       		bola.definePos_X(this.Largura() / 2);
+            bola.definePos_Y(this.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaDir();
             pausa = true;
         }
         	
-       	else if(bola.Pos_X() > TenisTreino.Largura()){
-       		bola.definePos_X(TenisTreino.Largura() / 2);
-            bola.definePos_Y(TenisTreino.Altura() / 2);
+       	else if(bola.Pos_X() > this.Largura()){
+       		bola.definePos_X(this.Largura() / 2);
+            bola.definePos_Y(this.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
@@ -246,7 +238,7 @@ public class TenisRede extends Jogo implements Runnable{
 
     @Override
 	public void desenhaJogador(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corJogador());
         g.fillRect(jogador.Pos_X(), jogador.Pos_Y(), jogador.Largura(), jogador.Altura());
         g.fillRect(oponente.Pos_X(), oponente.Pos_Y(), oponente.Largura(), oponente.Altura());
         Toolkit.getDefaultToolkit().sync();
@@ -254,7 +246,7 @@ public class TenisRede extends Jogo implements Runnable{
     
     @Override
 	public void desenhaObstaculo(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corObstaculo());
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
         g.fillRect(rede.Pos_X(), rede.Pos_Y(), rede.Largura(), rede.Altura());

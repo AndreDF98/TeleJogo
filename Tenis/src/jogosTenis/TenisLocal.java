@@ -1,12 +1,12 @@
 package jogosTenis;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import framework.Bola;
+import framework.ConfigGrafica;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
@@ -41,16 +41,16 @@ public class TenisLocal extends Jogo{
         timer.start();
         
         obCima = new Obstaculo();
-    	obCima.defineTamanho(50, TenisLocal.Largura());
+    	obCima.defineTamanho(50, this.Largura());
         obCima.definePosicao(0,  0);
         
         obBaixo = new Obstaculo();
-        obBaixo.defineTamanho(50, TenisLocal.Largura());
-        obBaixo.definePosicao(TenisLocal.Altura() - 50 - 29, 0);
+        obBaixo.defineTamanho(50, this.Largura());
+        obBaixo.definePosicao(this.Altura() - 50 - 29, 0);
         
         rede = new Obstaculo();
-        rede.defineTamanho(TenisLocal.Altura(), 50);
-        rede.definePosicao(0, TenisLocal.Largura()/2 - rede.Largura()/2);
+        rede.defineTamanho(this.Altura(), 50);
+        rede.definePosicao(0, this.Largura()/2 - rede.Largura()/2);
         
         bola = new Bola();
         placar = new Placar();
@@ -80,7 +80,7 @@ public class TenisLocal extends Jogo{
         jogador1.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
         
-        jogador2.definePosicao(jogador2.CENTRO_Y, TenisLocal.Largura() - 20 - 50);
+        jogador2.definePosicao(jogador2.CENTRO_Y, this.Largura() - 20 - 50);
         jogador2.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
         teclas = new boolean[]{false,false,false,false,false};
@@ -119,16 +119,16 @@ public class TenisLocal extends Jogo{
 	@Override
 	public void checaBolaFora() {
 		if(bola.Pos_X() < 0){
-       		bola.definePos_X(TenisLocal.Largura() / 2);
-            bola.definePos_Y(TenisLocal.Altura() / 2);
+       		bola.definePos_X(this.Largura() / 2);
+            bola.definePos_Y(this.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaDir();
             pausa = true;
         }
         	
-       	else if(bola.Pos_X() > TenisLocal.Largura()){
-       		bola.definePos_X(TenisLocal.Largura() / 2);
-            bola.definePos_Y(TenisLocal.Altura() / 2);
+       	else if(bola.Pos_X() > this.Largura()){
+       		bola.definePos_X(this.Largura() / 2);
+            bola.definePos_Y(this.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
@@ -137,7 +137,7 @@ public class TenisLocal extends Jogo{
 
     @Override
 	public void desenhaJogador(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corJogador());
         g.fillRect(jogador1.Pos_X(), jogador1.Pos_Y(), jogador1.Largura(), jogador1.Altura());
         g.fillRect(jogador2.Pos_X(), jogador2.Pos_Y(), jogador2.Largura(), jogador2.Altura());
         Toolkit.getDefaultToolkit().sync();
@@ -145,7 +145,7 @@ public class TenisLocal extends Jogo{
     
     @Override
 	public void desenhaObstaculo(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corObstaculo());
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
         g.fillRect(rede.Pos_X(), rede.Pos_Y(), rede.Largura(), rede.Altura());

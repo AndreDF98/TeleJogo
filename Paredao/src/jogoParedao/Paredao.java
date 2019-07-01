@@ -1,14 +1,11 @@
 package jogoParedao;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
-import javax.swing.Timer;
-
 import framework.Bola;
+import framework.ConfigGrafica;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
@@ -40,16 +37,16 @@ public class Paredao extends Jogo{
         timer.start();
         
         obCima = new Obstaculo();
-    	obCima.defineTamanho(50, Paredao.Largura());
+    	obCima.defineTamanho(50, this.Largura());
         obCima.definePosicao(0,  0);
         
         obBaixo = new Obstaculo();
-        obBaixo.defineTamanho(50, Paredao.Largura());
-        obBaixo.definePosicao(Paredao.Altura() - 50 - 29, 0);
+        obBaixo.defineTamanho(50, this.Largura());
+        obBaixo.definePosicao(this.Altura() - 50 - 29, 0);
         
         obDireita = new Obstaculo();
-        obDireita.defineTamanho(Paredao.Altura(), 50);
-        obDireita.definePosicao(0,  Paredao.Largura() - 50 - 6);
+        obDireita.defineTamanho(this.Altura(), 50);
+        obDireita.definePosicao(0,  this.Largura() - 50 - 6);
         
         bola = new Bola();
         placar = new Placar();
@@ -99,8 +96,8 @@ public class Paredao extends Jogo{
 	@Override
 	public void checaBolaFora() {
 		if(bola.Pos_X() + bola.Diametro() < 0){
-            bola.definePos_X(Paredao.Largura() / 2);
-            bola.definePos_Y(Paredao.Altura() / 2);
+            bola.definePos_X(this.Largura() / 2);
+            bola.definePos_Y(this.Altura() / 2);
             bola.inverteVelX();
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaDir();
@@ -110,14 +107,14 @@ public class Paredao extends Jogo{
 
     @Override
 	public void desenhaJogador(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corJogador());
         g.fillRect(jogador.Pos_X(), jogador.Pos_Y(), jogador.Largura(), jogador.Altura());
         Toolkit.getDefaultToolkit().sync();
     }
     
     @Override
 	public void desenhaObstaculo(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corObstaculo());
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
         g.fillRect(obDireita.Pos_X(), obDireita.Pos_Y(), obDireita.Largura(), obDireita.Altura());

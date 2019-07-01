@@ -1,6 +1,5 @@
 package jogosFut;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -8,6 +7,7 @@ import java.awt.event.KeyEvent;
 
 import framework.Bola;
 import framework.Computador;
+import framework.ConfigGrafica;
 import framework.Jogador;
 import framework.Jogo;
 import framework.Obstaculo;
@@ -46,12 +46,12 @@ public class FutTreino extends Jogo {
         timer.start();
         
         obCima = new Obstaculo();
-    	obCima.defineTamanho(20, FutLocal.Largura() - 30);
+    	obCima.defineTamanho(20, this.Largura() - 30);
         obCima.definePosicao(10,  10);
         
         obBaixo = new Obstaculo();
-        obBaixo.defineTamanho(20, FutLocal.Largura() - 30);
-        obBaixo.definePosicao(FutLocal.Altura() - 20 - 39, 10);
+        obBaixo.defineTamanho(20, this.Largura() - 30);
+        obBaixo.definePosicao(this.Altura() - 20 - 39, 10);
       
         traveCimaEsq = new Obstaculo();
         traveCimaEsq.defineTamanho(290, 20);
@@ -59,7 +59,7 @@ public class FutTreino extends Jogo {
         
         traveCimaDir = new Obstaculo();
         traveCimaDir.defineTamanho(290, 20);
-        traveCimaDir.definePosicao(10, FutLocal.Largura() - 30 - 6);
+        traveCimaDir.definePosicao(10, this.Largura() - 30 - 6);
         
         traveBaixoEsq = new Obstaculo();
         traveBaixoEsq.defineTamanho(300 - 39, 20);
@@ -67,7 +67,7 @@ public class FutTreino extends Jogo {
         
         traveBaixoDir = new Obstaculo();
         traveBaixoDir.defineTamanho(300 - 39, 20);
-        traveBaixoDir.definePosicao(500, FutLocal.Largura() - 30 - 6);
+        traveBaixoDir.definePosicao(500, this.Largura() - 30 - 6);
         
         bola = new Bola();
         placar = new Placar();
@@ -82,12 +82,12 @@ public class FutTreino extends Jogo {
         for(int i = 0; i < 3; i++) {
         	jogadoresEsq[i] = new Computador();
         	jogadoresEsq[i].defineTamanho(30, 20);
-        	jogadoresEsq[i].definePosicao(50 + distancia, FutLocal.Largura()/2 - 320 - 20);
+        	jogadoresEsq[i].definePosicao(50 + distancia, this.Largura()/2 - 320 - 20);
         	jogadoresEsq[i].defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         	jogadoresEsq[i].defineVel(3);
         	jogadoresDir[i] = new Computador();
         	jogadoresDir[i].defineTamanho(30, 20);
-        	jogadoresDir[i].definePosicao(180 + distancia, FutLocal.Largura()/2 + 320);
+        	jogadoresDir[i].definePosicao(180 + distancia, this.Largura()/2 + 320);
         	jogadoresDir[i].defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         	jogadoresDir[i].defineVel(3);
         	
@@ -115,7 +115,7 @@ public class FutTreino extends Jogo {
         jogador.definePosicao(jogador.CENTRO_Y, 50);
         jogador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
-        computador.definePosicao(computador.CENTRO_Y, FutTreino.Largura() - 20 - 50);
+        computador.definePosicao(computador.CENTRO_Y, this.Largura() - 20 - 50);
         computador.defineLimitesVert(obCima.Altura(), obBaixo.Pos_Y());
         
         teclas = new boolean[]{false,false,false,false,false};
@@ -161,16 +161,16 @@ public class FutTreino extends Jogo {
 	@Override
 	public void checaBolaFora() {
 		if(bola.Pos_X() < 0){
-       		bola.definePos_X(FutTreino.Largura() / 2);
-            bola.definePos_Y(FutTreino.Altura() / 2);
+       		bola.definePos_X(this.Largura() / 2);
+            bola.definePos_Y(this.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaDir();
             pausa = true;
         }
         	
-       	else if(bola.Pos_X() > FutTreino.Largura()){
-       		bola.definePos_X(FutTreino.Largura() / 2);
-            bola.definePos_Y(FutTreino.Altura() / 2);
+       	else if(bola.Pos_X() > this.Largura()){
+       		bola.definePos_X(this.Largura() / 2);
+            bola.definePos_Y(this.Altura() / 2);
             if(vel == 0) bola.defineAcel(1.0);
             placar.aumentaEsq();
             pausa = true;
@@ -197,7 +197,7 @@ public class FutTreino extends Jogo {
 
     @Override
 	public void desenhaJogador(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corJogador());
         g.fillRect(jogador.Pos_X(), jogador.Pos_Y(), jogador.Largura(), jogador.Altura());
         g.fillRect(computador.Pos_X(), computador.Pos_Y(), computador.Largura(), computador.Altura());
         
@@ -211,7 +211,7 @@ public class FutTreino extends Jogo {
     
     @Override
 	public void desenhaObstaculo(Graphics g) {
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corObstaculo());
         g.fillRect(obCima.Pos_X(), obCima.Pos_Y(), obCima.Largura(), obCima.Altura());
         g.fillRect(obBaixo.Pos_X(), obBaixo.Pos_Y(), obBaixo.Largura(), obBaixo.Altura());
         g.fillRect(traveCimaEsq.Pos_X(), traveCimaEsq.Pos_Y(), traveCimaEsq.Largura(), traveCimaEsq.Altura());

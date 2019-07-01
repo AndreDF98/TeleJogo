@@ -17,8 +17,7 @@ import javax.swing.Timer;
 
 public abstract class Jogo extends JPanel  implements ActionListener, KeyListener{
 	
-	private static int ALTURA = 800; // criar singleton para configuracao de jogo
-	private static int LARGURA = 1200;
+	protected static ConfigGrafica config;
 	
 	private JFrame janela = new JFrame();
 	
@@ -32,8 +31,10 @@ public abstract class Jogo extends JPanel  implements ActionListener, KeyListene
 	
 	public Jogo() {
 		
+		config = ConfigGrafica.Config();
+		
 		this.definePlanoFundo(Color.BLACK);
-		this.defineTamanho(LARGURA, ALTURA);
+		this.defineTamanho(config.LARGURA, config.ALTURA);
 		this.defineTitulo("Jogo");
 		this.setDoubleBuffered(true);
 		this.setLayout(null);
@@ -58,11 +59,11 @@ public abstract class Jogo extends JPanel  implements ActionListener, KeyListene
 	
 	
 	public static int Altura() {
-		return ALTURA;
+		return config.ALTURA;
 	}
 	
 	public static int Largura() {
-		return LARGURA;
+		return config.LARGURA;
 	}
 	
 	public void definePlanoFundo(Color cor) {
@@ -70,9 +71,9 @@ public abstract class Jogo extends JPanel  implements ActionListener, KeyListene
 	}
 	
 	public void defineTamanho(int largura, int altura) {
-		LARGURA = largura;
-		ALTURA = altura;
-		janela.setSize(LARGURA, ALTURA);
+		config.LARGURA = largura;
+		config.ALTURA = altura;
+		janela.setSize(config.LARGURA, config.ALTURA);
 	}
 	
 	public void defineTitulo(String nome) {
@@ -101,7 +102,7 @@ public abstract class Jogo extends JPanel  implements ActionListener, KeyListene
 	public void desenhaObstaculo(Graphics g) {}
 
 	public void desenhaPlacar(Graphics g) {
-		g.setColor(Color.WHITE);
+		g.setColor(config.corPlacar());
 		g.setFont(new Font("Agency FB", Font.BOLD, 50));
 		g.drawBytes(placar.PtsEsq(), 0, placar.PtsEsq().length, placar.Pos_X_Esq(), placar.Pos_Y_Esq());
 		g.drawBytes(placar.PtsDir(), 0, placar.PtsDir().length, placar.Pos_X_Dir(), placar.Pos_Y_Dir());
@@ -109,9 +110,9 @@ public abstract class Jogo extends JPanel  implements ActionListener, KeyListene
 	}
 	
 	public void desenhaBola(Graphics g) {
-    	g.setColor(Color.BLACK);
+    	g.setColor(config.corBorda());
     	g.fillRect(bola.Pos_X() - 1, bola.Pos_Y() - 1, bola.Diametro() + 2, bola.Diametro() + 2);
-    	g.setColor(Color.WHITE);
+    	g.setColor(config.corBola());
         g.fillRect(bola.Pos_X(), bola.Pos_Y(), bola.Diametro(), bola.Diametro());
         Toolkit.getDefaultToolkit().sync();
     }
