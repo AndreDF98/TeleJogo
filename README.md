@@ -5,6 +5,7 @@ Implementação de um [framework](https://pt.wikipedia.org/wiki/Framework) basea
 ## Funcionalidades
 
 A aplicação possui um controle para iniciar três jogos diferentes: Tênis, Futebol e Paredão
+
 Com o controle é possível escolher a velocidade da bola e o tamanho dos jogadores
 
 ![Controle](https://i.imgur.com/zjsw32G.png)
